@@ -3,10 +3,12 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { MdArrowCircleRight } from 'react-icons/md'
 import { MdArrowCircleLeft } from 'react-icons/md'
+import { useRouter } from 'next/navigation'
 
 const Listings = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currentIndex1, setCurrentIndex1] = useState(0)
+  const router = useRouter()
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => prevIndex + 2)
@@ -24,6 +26,9 @@ const Listings = () => {
     setCurrentIndex1((prevIndex) => prevIndex - 1)
   }
 
+  const handleClick = () => {
+    router.push('/listings/image')
+  }
   const images = [
     '/labor_day.jpg',
     '/labor_day2.jpg',
@@ -59,10 +64,11 @@ const Listings = () => {
             <img
               key={index}
               src={image}
-              className={`w-60 h-100 rounded-lg ${
+              className={`w-60 h-100 rounded-lg cursor-pointer ${
                 index === currentIndex ? 'translate-x-60' : 'translate-x-full'
               }`}
               alt={`Slide ${index}`}
+              onClick={handleClick}
             />
           ))}
         </div>
