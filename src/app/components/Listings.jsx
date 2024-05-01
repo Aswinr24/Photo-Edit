@@ -19,15 +19,15 @@ const Listings = () => {
   }
 
   const nextSlide1 = () => {
-    setCurrentIndex1((prevIndex) => prevIndex + 2)
+    setCurrentIndex1((prevIndex1) => prevIndex1 + 2)
   }
 
   const prevSlide1 = () => {
-    setCurrentIndex1((prevIndex) => prevIndex - 1)
+    setCurrentIndex1((prevIndex1) => prevIndex1 - 1)
   }
 
-  const handleClick = () => {
-    router.push('/listings/image')
+  const handleClick = (imagePath) => {
+    router.push(`/listings/image?imagePath=${encodeURIComponent(imagePath)}`)
   }
   const images = [
     '/labor_day.jpg',
@@ -68,7 +68,7 @@ const Listings = () => {
                 index === currentIndex ? 'translate-x-60' : 'translate-x-full'
               }`}
               alt={`Slide ${index}`}
-              onClick={handleClick}
+              onClick={() => handleClick(image)}
             />
           ))}
         </div>
@@ -85,7 +85,7 @@ const Listings = () => {
       <div className="relative overflow-hidden">
         <div
           className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-          style={{ transform: `translateX(-${currentIndex * 20}%)` }}
+          style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
         >
           {images1.map((image, index) => (
             <img
