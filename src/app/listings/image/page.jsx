@@ -7,6 +7,8 @@ import { CiGlobe } from 'react-icons/ci'
 import { FaLocationDot } from 'react-icons/fa6'
 import Navbar from '@/app/components/Navbar'
 import { FaDownload } from 'react-icons/fa'
+import { MdArrowCircleRight } from 'react-icons/md'
+import { MdArrowCircleLeft } from 'react-icons/md'
 
 const page = () => {
   const [nameVisible, setNameVisible] = useState(true)
@@ -15,11 +17,22 @@ const page = () => {
   const [phoneVisible, setPhoneVisible] = useState(true)
   const [emailVisible, setEmailVisible] = useState(true)
   const [websiteVisible, setWebsiteVisible] = useState(true)
-  const Frames = [
+  const frames = [
     '/frames/frame1.png',
     '/frames/frame2.png',
     '/frames/frame3.png',
     '/frames/frame4.png',
+    '/frames/frame5.png',
+    '/frames/Frame6.png',
+  ]
+
+  const customframes = [
+    '/frames/customframe1.png',
+    '/frames/customframe2.png',
+    '/frames/customframe3.png',
+    '/frames/customframe4.png',
+    '/frames/customframe5.png',
+    '/frames/customframe6.png',
   ]
 
   const toggleVisibility = (component) => {
@@ -71,13 +84,13 @@ const page = () => {
             height={400}
           />
           <Image
-            src="/frames/frame2.png"
+            src="/frames/frame7.png"
             alt="frame1"
-            className="absolute bottom-48 mb-3 pb-0.5 h-9 w-[440px] rounded-lg"
+            className="absolute bottom-36 pb-0.5 h-9 w-[440px] rounded-lg"
             width={80}
             height={100}
           />
-          <div className="absolute bottom-52 mb-1 ml-4  rounded-2xl flex px-4">
+          <div className="absolute bottom-36 mb-2 ml-4  rounded-2xl flex px-4">
             {phoneVisible && (
               <p className="text-black text-sm font-bold flex pr-2">
                 <FaPhone className="h-4 w-4 mx-1 pt-1 " />
@@ -98,7 +111,7 @@ const page = () => {
             )}
           </div>
           {locationVisible && (
-            <div className="absolute bottom-40 mb-5 pb-1 text-xs text-black">
+            <div className="absolute bottom-28 mb-2 pb-1 text-xs text-black">
               <p className="flex">
                 <FaLocationDot className="h-4 w-4 mx-1 text-black" />
                 Indiranagar, Bengaluru
@@ -170,10 +183,64 @@ const page = () => {
             </div>
           </button>
         </div>
-        <div className="py-4 text-3xl text-purple-500 flex justify-center items-center cursor-pointer">
-          <FaDownload className="w-6 h-6 mx-2" /> Download
-        </div>
       </main>
+      <div className="text-2xl text-black flex items-center justify-center py-2 ">
+        Select from a wide range of Frames:
+      </div>
+      <div className="relative flex flex-wrap justify-center">
+        {frames.map((frame, index) => (
+          <div
+            key={index}
+            className="relative flex p-5 justify-center items-center "
+          >
+            <Image
+              src="/heritageDay.jpg"
+              width={160}
+              height={160}
+              className="cursor-pointer"
+            />
+            <Image
+              src={frame}
+              width={160}
+              height={60}
+              className="absolute bottom-6"
+            />
+          </div>
+        ))}
+        <MdArrowCircleLeft className="absolute top-20 left-16 w-9 cursor-pointer h-10 text-purple-400" />
+        <MdArrowCircleRight className="absolute top-20 w-9 h-10 cursor-pointer right-16 text-purple-400" />
+      </div>
+      <div className="py-2 mb-8 text-2xl text-black flex items-center justify-center">
+        Custom Frames Just for you!
+      </div>
+      <div className="relative flex flex-wrap justify-center">
+        {customframes.map((frame, index) => (
+          <div
+            key={index}
+            className="relative flex p-5 justify-center items-center "
+          >
+            <Image
+              src="/heritageDay.jpg"
+              width={160}
+              height={160}
+              className="cursor-pointer"
+            />
+            <Image
+              src={frame}
+              width={index === 3 || index === 4 ? 180 : 180}
+              height={index === 3 || index === 4 ? 60 : 180}
+              className={`absolute cursor-pointer ${
+                index === 3 || index === 4 ? '-bottom-4' : 'bottom-4'
+              }`}
+            />
+          </div>
+        ))}
+        <MdArrowCircleLeft className="absolute top-20 left-16 w-9 cursor-pointer h-10 text-purple-400" />
+        <MdArrowCircleRight className="absolute top-20 w-9 h-10 cursor-pointer right-16 text-purple-400" />
+      </div>
+      <div className="py-10 text-3xl text-purple-500 flex justify-center items-center cursor-pointer">
+        <FaDownload className="w-6 h-6 mx-2" /> Download
+      </div>
     </main>
   )
 }
