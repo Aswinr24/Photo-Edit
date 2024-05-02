@@ -91,10 +91,11 @@ const Listings = () => {
             <img
               key={index}
               src={image}
-              className={`w-60 h-100 rounded-lg ${
+              className={`w-60 h-100 rounded-lg cursor-pointer ${
                 index === currentIndex1 ? 'translate-x-60' : 'translate-x-full'
               }`}
               alt={`Slide ${index}`}
+              onClick={() => handleClick(image)}
             />
           ))}
         </div>
@@ -117,8 +118,9 @@ const Listings = () => {
               <img
                 key={index}
                 src={image}
-                className={`w-60 h-100 rounded-lg`}
+                className={`w-60 h-100 rounded-lg cursor-pointer`}
                 alt={`Slide ${index}`}
+                onClick={() => handleClick(image)}
               />
             ))}
           </div>
@@ -130,8 +132,9 @@ const Listings = () => {
               <img
                 key={index}
                 src={image}
-                className={`w-60 h-100 rounded-lg`}
+                className={`w-60 h-100 rounded-lg cursor-pointer`}
                 alt={`Slide ${index}`}
+                onClick={() => handleClick(image)}
               />
             ))}
           </div>

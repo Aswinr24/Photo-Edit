@@ -9,17 +9,17 @@ import Navbar from '@/app/components/Navbar'
 import { FaDownload } from 'react-icons/fa'
 import { MdArrowCircleRight } from 'react-icons/md'
 import { MdArrowCircleLeft } from 'react-icons/md'
-import styles from '../../styles.css'
-import { useParams } from 'next/navigation'
 import DraggableLogo from '@/app/components/DraggableLogo'
 import Draggable from 'react-draggable'
 import htmlToImage from 'html-to-image'
 import { toPng } from 'html-to-image'
+import { useSearchParams } from 'next/navigation'
+import { useScreenshot, createFileName } from 'use-react-screenshot'
 
 const page = () => {
-  const pathname = useParams()
+  const searchParams = useSearchParams()
 
-  console.log(pathname)
+  const imagePath = searchParams.get('imagePath')
 
   const [nameVisible, setNameVisible] = useState(true)
   const [logoVisible, setLogoVisible] = useState(true)
@@ -27,7 +27,11 @@ const page = () => {
   const [phoneVisible, setPhoneVisible] = useState(true)
   const [emailVisible, setEmailVisible] = useState(true)
   const [websiteVisible, setWebsiteVisible] = useState(true)
-  const [selectedFrameIndex, setSelectedFrameIndex] = useState(6)
+  const [selectedFrameIndex, setSelectedFrameIndex] = useState(0)
+  const [showFrame, setShowFrame] = useState(true)
+  const [showCustomFrame, setShowCustomFrame] = useState(false)
+  const [showContents, setShowContents] = useState(true)
+  const [selectedCustomFrameIndex, setSelectedCustomFrameIndex] = useState(0)
   const frames = [
     '/frames/frame1.png',
     '/frames/frame2.png',
@@ -48,6 +52,20 @@ const page = () => {
   ]
 
   const componentRef = useRef(null)
+
+  const [image, takeScreenShot] = useScreenshot({
+    type: 'image/jpeg',
+    quality: 1.0,
+  })
+
+  const download = (image, { name = 'img', extension = 'jpg' } = {}) => {
+    const a = document.createElement('a')
+    a.href = image
+    a.download = createFileName(extension, name)
+    a.click()
+  }
+
+  const getImage = () => takeScreenShot(componentRef.current).then(download)
 
   const downloadImage = () => {
     const node = componentRef.current
@@ -91,46 +109,75 @@ const page = () => {
 
   const handleFrameClick = (index) => {
     setSelectedFrameIndex(index)
+    setShowFrame(true)
+    setShowContents(true)
+    setShowCustomFrame(false)
+    setNameVisible(true)
+    setLogoVisible(true)
+    setLocationVisible(true)
+    setPhoneVisible(true)
+    setEmailVisible(true)
+    setWebsiteVisible(true)
+  }
+
+  const handleCustomFrameClick = (index) => {
+    setSelectedCustomFrameIndex(index)
+    setShowCustomFrame(true)
+    setShowFrame(false)
+    setShowContents(false)
+    setNameVisible(false)
+    setLogoVisible(false)
+    setLocationVisible(false)
+    setPhoneVisible(false)
+    setEmailVisible(false)
+    setWebsiteVisible(false)
   }
 
   const framePositions = [
     {
-      email: '-bottom-56 mb-9 -left-56 ml-2 flex text-black',
-      phone: '-bottom-44 mb-3 -left-48 flex text-black',
-      website: '-bottom-56 mb-9 left-10 text-black flex',
-      location: '-bottom-56 mb-3 -left-40 -right-20 ml-16 text-black flex-row',
+      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
+      email: '-bottom-64 mb-9 -left-56 ml-2 flex text-black',
+      phone: '-bottom-56 mb-7 -left-48 flex text-black',
+      website: '-bottom-64 mb-9 left-10 text-black flex',
+      location: '-bottom-64 mb-3 -left-40 -right-20 ml-16 text-black flex-row',
     },
     {
-      email: '-bottom-56 mb-3 flex -left-56 text-white',
-      phone: '-bottom-48 flex -left-56 mb-1 text-black',
-      website: 'flex -bottom-48 mb-1 left-16 text-black',
-      location: 'flex -bottom-56 -right-60 mr-8 mb-4 text-black',
+      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
+      email: '-bottom-64 mb-3 flex -left-56 text-white',
+      phone: '-bottom-56 flex -left-56 mb-1 text-black',
+      website: 'flex -bottom-56 mb-1 left-16 text-black',
+      location: 'flex -bottom-64 -right-60 mr-8 mb-4 text-black',
     },
     {
-      email: '-bottom-56 mb-3 flex -left-56 text-white',
-      phone: '-bottom-48 flex -left-40 mb-2 text-white',
-      website: '-bottom-48 flex -left-4 mb-2 text-white',
-      location: '-bottom-56 mb-3 flex -right-60 mr-10 text-white',
+      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
+      email: '-bottom-64 mb-3 flex -left-56 text-white',
+      phone: '-bottom-56 flex -left-40 mb-2 text-white',
+      website: '-bottom-56 flex -left-4 mb-2 text-white',
+      location: '-bottom-64 mb-3 flex -right-60 mr-10 text-white',
     },
     {
+      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
       email: 'top-20 left-20',
       phone: 'top-60 left-20',
       website: 'top-100 left-20',
       location: 'bottom-20 left-20',
     },
     {
-      email: '-bottom-56 mb-7 flex -left-2 text-black',
-      phone: '-bottom-56 mb-7 flex -left-40 text-black',
-      website: '-bottom-60 mb-6 flex -left-56 ml-5 text-black',
-      location: '-bottom-60 mb-6 flex -right-60 mr-16 text-black',
+      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
+      email: '-bottom-64 mb-7 flex -left-2 text-black',
+      phone: '-bottom-64 mb-7 flex -left-40 text-black',
+      website: '-bottom-72 mb-10 flex -left-56 ml-5 text-black',
+      location: '-bottom-72 mb-10 flex -right-60 mr-16 text-black',
     },
     {
-      email: 'top-20 left-20',
-      phone: 'top-60 left-20',
-      website: 'top-100 left-20',
-      location: 'bottom-20 left-20',
+      name: 'absolute -top-60 mt-4 flex -left-60 ml-8',
+      email: '-bottom-64 mb-5 flex right-4',
+      phone: '-bottom-56 mb-2 flex right-36',
+      website: '-top-60 mt-4 flex left-20',
+      location: '-bottom-60 mb-2 -right-60 mr-10',
     },
     {
+      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
       email: '-bottom-56 mb-5 flex -left-28 text-black text-sm',
       phone: '-bottom-56 mb-4 flex -left-60 ml-4 text-black',
       website: '-bottom-56 mb-5 flex left-24 ml-2 text-black text-sm',
@@ -139,7 +186,7 @@ const page = () => {
   ]
 
   const getPropertyPosition = (property, index) => {
-    const defaultPosition = 'top-0 left-0' // Define your default position here
+    const defaultPosition = 'top-0 left-0'
     if (framePositions[index]) {
       return framePositions[index][property] || defaultPosition
     }
@@ -154,24 +201,23 @@ const page = () => {
           className="py-10 mt-10 flex items-center justify-center"
           ref={componentRef}
         >
-          {nameVisible && (
-            <div className="absolute top-12 mt-6">
-              <p className="text-black text-xl font-bold">Next Associates</p>
-            </div>
-          )}
           <div className=" border-purple-300 border-2 p-2 rounded-lg">
             <Image
-              src="/heritageDay.jpg"
+              src={imagePath}
               alt="diwali"
               className="p-2 rounded-lg"
               width={500}
               height={400}
             />
           </div>
-          <div className="absolute h-[440px] w-[480px]">
+          <div
+            className={`absolute h-[470px] w-[480px] ${
+              showContents ? 'block' : 'hidden'
+            }`}
+          >
             {logoVisible && (
               <Draggable bounds="parent">
-                <div className="absolute top-16 text-black text-3xl cursor-pointer">
+                <div className="absolute top-0 text-black text-3xl cursor-pointer">
                   <Image src="/logo.png" height={30} width={90} />
                 </div>
               </Draggable>
@@ -185,11 +231,40 @@ const page = () => {
                 : '/frames/frame1.png'
             }
             alt="frame1"
-            className="absolute bottom-36 pb-0.5 rounded-lg"
-            width={480}
+            className={`absolute bottom-28 pb-0.5 rounded-lg ${
+              showFrame ? 'block' : 'hidden'
+            }`}
+            width={484}
             height={60}
           />
-          <div className="absolute mb-2 ml-4 text-black rounded-2xl flex px-4">
+          <Image
+            src={
+              showCustomFrame
+                ? customframes[selectedCustomFrameIndex]
+                : '/frames/customframe1.png'
+            }
+            alt="customFrame"
+            width={490}
+            height={64}
+            className={`absolute bottom-28 pb-0.5 rounded-lg ${
+              showCustomFrame ? 'block' : 'hidden'
+            }`}
+          />
+          <div
+            className={`absolute mb-2 ml-4 text-black rounded-2xl flex px-4 ${
+              showContents ? 'block' : 'hidden'
+            }`}
+          >
+            {nameVisible && (
+              <p
+                className={`absolute text-black text-xl font-semibold ${getPropertyPosition(
+                  'name',
+                  selectedFrameIndex
+                )}`}
+              >
+                Next Associates
+              </p>
+            )}
             {phoneVisible && (
               <p
                 className={`absolute ${getPropertyPosition(
@@ -239,28 +314,46 @@ const page = () => {
           </div>
         </div>
         <div className="flex gap-4 items-center justify-center pb-4">
-          <button onClick={() => toggleVisibility('name')}>
+          <button
+            onClick={() => {
+              if (showFrame) {
+                toggleVisibility('name')
+              }
+            }}
+          >
             <div
               className={` px-2 py-2 text-black rounded-xl ${
-                nameVisible ? 'bg-purple-400' : 'bg-gray-400'
+                nameVisible ? 'bg-purple-400' : 'bg-gray-300'
               }`}
             >
               <p className="px-2">Name</p>
             </div>
           </button>
-          <button onClick={() => toggleVisibility('logo')}>
+          <button
+            onClick={() => {
+              if (showFrame) {
+                toggleVisibility('logo')
+              }
+            }}
+          >
             <div
               className={`px-2   py-2 text-black rounded-xl ${
-                logoVisible ? 'bg-purple-400' : 'bg-gray-400'
+                logoVisible ? 'bg-purple-400' : 'bg-gray-300'
               }`}
             >
               <p className="px-2">Logo</p>
             </div>
           </button>
-          <button onClick={() => toggleVisibility('location')}>
+          <button
+            onClick={() => {
+              if (showFrame) {
+                toggleVisibility('location')
+              }
+            }}
+          >
             <div
               className={` px-2 py-2 text-black rounded-xl ${
-                locationVisible ? 'bg-purple-400 ' : 'bg-gray-400'
+                locationVisible ? 'bg-purple-400 ' : 'bg-gray-300'
               }`}
             >
               <p className="px-2 flex">
@@ -268,10 +361,16 @@ const page = () => {
               </p>
             </div>
           </button>
-          <button onClick={() => toggleVisibility('phone')}>
+          <button
+            onClick={() => {
+              if (showFrame) {
+                toggleVisibility('phone')
+              }
+            }}
+          >
             <div
               className={` px-2 py-2 text-black rounded-xl ${
-                phoneVisible ? 'bg-purple-400' : 'bg-gray-400'
+                phoneVisible ? 'bg-purple-400' : 'bg-gray-300'
               }`}
             >
               <p className="px-2 flex">
@@ -279,10 +378,16 @@ const page = () => {
               </p>
             </div>
           </button>
-          <button onClick={() => toggleVisibility('email')}>
+          <button
+            onClick={() => {
+              if (showFrame) {
+                toggleVisibility('email')
+              }
+            }}
+          >
             <div
               className={` px-2 py-2 text-black rounded-xl ${
-                emailVisible ? 'bg-purple-400' : 'bg-gray-400'
+                emailVisible ? 'bg-purple-400' : 'bg-gray-300'
               }`}
             >
               <p className="px-2 flex">
@@ -290,7 +395,13 @@ const page = () => {
               </p>
             </div>
           </button>
-          <button onClick={() => toggleVisibility('website')}>
+          <button
+            onClick={() => {
+              if (showFrame) {
+                toggleVisibility('website')
+              }
+            }}
+          >
             <div
               className={` px-2 py-2 text-black rounded-xl ${
                 websiteVisible ? 'bg-purple-400' : 'bg-gray-300'
@@ -314,10 +425,10 @@ const page = () => {
             onClick={() => handleFrameClick(index)}
           >
             <Image
-              src="/heritageDay.jpg"
+              src={imagePath}
               width={150}
               height={150}
-              className="cursor-pointer"
+              className="cursor-pointer mb-1"
             />
             <Image
               src={frame}
@@ -338,12 +449,13 @@ const page = () => {
           <div
             key={index}
             className="relative flex p-5 justify-center items-center "
+            onClick={() => handleCustomFrameClick(index)}
           >
             <Image
-              src="/heritageDay.jpg"
+              src={imagePath}
               width={160}
               height={160}
-              className="cursor-pointer"
+              className="cursor-pointer mb-1"
             />
             <Image
               src={frame}
@@ -359,7 +471,7 @@ const page = () => {
         <MdArrowCircleRight className="absolute top-20 w-9 h-10 cursor-pointer right-16 text-purple-400" />
       </div>
       <div className="py-10 text-3xl text-purple-500 flex justify-center items-center cursor-pointer">
-        <FaDownload className="w-6 h-6 mx-2" onClick={downloadImage} /> Download
+        <FaDownload className="w-6 h-6 mx-2" onClick={getImage} /> Download
       </div>
     </main>
   )

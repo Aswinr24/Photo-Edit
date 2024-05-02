@@ -8,12 +8,27 @@ import { FaCircleUser } from 'react-icons/fa6'
 import { GoHome } from 'react-icons/go'
 import { MdOutlineDashboard } from 'react-icons/md'
 import { MdContactSupport } from 'react-icons/md'
+import { useRouter } from 'next/navigation'
 
 const Navbar = () => {
+  const router = useRouter()
+
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
+  }
+
+  const handleLogoClick = () => {
+    router.push('/')
+  }
+
+  const handleProfileClick = () => {
+    router.push('/profile')
+  }
+
+  const handleDashboardClick = () => {
+    router.push('/dashboard')
   }
 
   return (
@@ -21,7 +36,11 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <div className="mr-4">
-            <img src="/smart_ariser.png" className="w-22 h-10" />
+            <img
+              src="/smart_ariser.png"
+              className="w-22 h-10 cursor-pointer"
+              onClick={handleLogoClick}
+            />
           </div>
           <div className="hidden justify-center text-lg items-center px-40 ml-48 md:flex lg:flex space-x-28">
             <a href="#" className="hover:text-gray-700 flex">
@@ -56,12 +75,14 @@ const Navbar = () => {
                 <a
                   href="#"
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  onClick={handleProfileClick}
                 >
                   Profile
                 </a>
                 <a
-                  href="#"
+                  href=""
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  onClick={handleDashboardClick}
                 >
                   Dashboard
                 </a>
