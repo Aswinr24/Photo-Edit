@@ -205,7 +205,7 @@ const page = () => {
             <Image
               src={imagePath}
               alt="diwali"
-              className="p-2 rounded-lg"
+              className="p-2 rounded-2xl"
               width={500}
               height={400}
             />
@@ -414,6 +414,24 @@ const page = () => {
           </button>
         </div>
       </main>
+      <div className="flex gap-4 items-center justify-center pb-4">
+        <label
+          for="small"
+          className="block mb-4 text-md font-medium text-black"
+        >
+          Text Colour
+        </label>
+        <select
+          id="small"
+          className="block w-1/4 p-2 pr-2 mb-6 text-sm text-black rounded-lg bg-purple-300 "
+        >
+          <option selected>Black</option>
+          <option value="US">White</option>
+          <option value="CA">Blue</option>
+          <option value="FR">Green</option>
+          <option value="DE">Red</option>
+        </select>
+      </div>
       <div className="text-2xl text-black flex items-center justify-center py-2 ">
         Select from a wide range of Frames:
       </div>

@@ -43,11 +43,19 @@ const Navbar = () => {
             />
           </div>
           <div className="hidden justify-center text-lg items-center px-40 ml-48 md:flex lg:flex space-x-28">
-            <a href="#" className="hover:text-gray-700 flex">
+            <a
+              href="javascript:void(0);"
+              className="hover:text-gray-700 flex"
+              onClick={handleLogoClick}
+            >
               <GoHome className="w-6 h-6 mr-1" />
               Home
             </a>
-            <a href="#" className="hover:text-gray-700 flex">
+            <a
+              href="javascript:void(0);"
+              className="hover:text-gray-700 flex"
+              onClick={handleDashboardClick}
+            >
               <MdOutlineDashboard className="w-6 h-6 mr-1" />
               Dashboard
             </a>
@@ -73,21 +81,21 @@ const Navbar = () => {
                 </div>
                 <hr className="border-gray-300" />
                 <a
-                  href="#"
+                  href="javascript:void(0);"
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                   onClick={handleProfileClick}
                 >
                   Profile
                 </a>
                 <a
-                  href=""
+                  href="javascript:void(0);"
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                   onClick={handleDashboardClick}
                 >
                   Dashboard
                 </a>
                 <a
-                  href="#"
+                  href="javascript:void(0);"
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                 >
                   Logout
