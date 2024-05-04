@@ -4,6 +4,9 @@ import Image from 'next/image'
 import { MdArrowCircleRight } from 'react-icons/md'
 import { MdArrowCircleLeft } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
+import { FaAngleLeft } from 'react-icons/fa'
+import { FaAngleRight } from 'react-icons/fa'
+import '../.././app/styles.css'
 
 const Listings = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -51,6 +54,11 @@ const Listings = () => {
 
   return (
     <main className="text-3xl text-black p-10">
+      <div className="w-full py-4 mb-6 px-20 relative">
+        <FaAngleLeft className="absolute w-16 h-16 text-purple-500 top-64 -left-2 cursor-pointer" />
+        <img src="/banner.png" className="rounded w-[1300px] h-[600px]" />
+        <FaAngleRight className="absolute w-16 h-16 text-purple-500 top-64 -right-2 cursor-pointer" />
+      </div>
       <div className="flex items-center justify-center mb-10">
         Celebrations with your Branding!
       </div>

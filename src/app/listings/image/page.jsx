@@ -1,5 +1,6 @@
 'use client'
 import { React, useState, useRef } from 'react'
+import clsx from 'clsx'
 import Image from 'next/image'
 import { FaPhone } from 'react-icons/fa6'
 import { MdEmail } from 'react-icons/md'
@@ -9,15 +10,37 @@ import Navbar from '@/app/components/Navbar'
 import { FaDownload } from 'react-icons/fa'
 import { MdArrowCircleRight } from 'react-icons/md'
 import { MdArrowCircleLeft } from 'react-icons/md'
-import DraggableLogo from '@/app/components/DraggableLogo'
 import Draggable from 'react-draggable'
-import htmlToImage from 'html-to-image'
+import '../../styles.css'
 import { toPng } from 'html-to-image'
 import { useSearchParams } from 'next/navigation'
 import { useScreenshot, createFileName } from 'use-react-screenshot'
+import { TwitterPicker } from 'react-color'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const page = () => {
   const searchParams = useSearchParams()
+
+  const [color, setColor] = useState('#000000')
+  const [showColorPicker, setShowColorPicker] = useState(false)
+  const [font1, setFont1] = useState('Audiowide')
+
+  const toggleColorPicker = () => {
+    setShowColorPicker((prevState) => !prevState)
+  }
+
+  const handleChangeComplete = (selectedColor) => {
+    setColor(selectedColor.hex)
+    setShowColorPicker(false)
+  }
 
   const imagePath = searchParams.get('imagePath')
 
@@ -194,9 +217,9 @@ const page = () => {
   }
 
   return (
-    <main className="bg-gray-200">
+    <main className="bg-violet-50">
       <Navbar />
-      <main className="bg-gray-200 relative">
+      <main className="bg-violet-50 relative">
         <div
           className="py-10 mt-10 flex items-center justify-center"
           ref={componentRef}
@@ -414,25 +437,67 @@ const page = () => {
           </button>
         </div>
       </main>
-      <div className="flex gap-4 items-center justify-center pb-4">
-        <label
-          for="small"
-          className="block mb-4 text-md font-medium text-black"
-        >
-          Text Colour
-        </label>
-        <select
-          id="small"
-          className="block w-1/4 p-2 pr-2 mb-6 text-sm text-black rounded-lg bg-purple-300 "
-        >
-          <option selected>Black</option>
-          <option value="US">White</option>
-          <option value="CA">Blue</option>
-          <option value="FR">Green</option>
-          <option value="DE">Red</option>
-        </select>
+      <div className="py-4 mb-8 flex gap-20 justify-center items-center">
+        <div className="py-2 mt-2">
+          <h1
+            className="text-xl flex text-black mb-4 cursor-pointer"
+            onClick={toggleColorPicker}
+          >
+            Text Colour:
+            <div
+              className="w-6 h-6 ml-2 mt-0.5 rounded-lg"
+              style={{ backgroundColor: color }}
+            ></div>
+          </h1>
+          {showColorPicker && (
+            <div className="absolute">
+              <TwitterPicker
+                color={color}
+                onChangeComplete={handleChangeComplete}
+                colors={[
+                  '#000000',
+                  '#ffffff',
+                  '#9c27b0',
+                  '#673ab7',
+                  '#3f51b5',
+                  '#2196f3',
+                  '#03a9f4',
+                  '#00bcd4',
+                  '#009688',
+                  '#4caf50',
+                  '#8bc34a',
+                  '#ff5722',
+                  '#795548',
+                  '#607d8b',
+                ]}
+                width="400px"
+              />
+            </div>
+          )}
+        </div>
+        <div className="py-2 flex gap-2">
+          <h1 className="text-xl mt-2 flex text-black mb-4 w-full cursor-pointer">
+            Text Font:
+          </h1>
+          <div>
+            <Select>
+              <SelectTrigger className="w-[180px] bg-purple-400 rounded-xl">
+                <SelectValue placeholder="Outfit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup className="bg-purple-300 rounded-md">
+                  <SelectItem value="outfit">Outfit</SelectItem>
+                  <SelectItem value="Sans">Sans</SelectItem>
+                  <SelectItem value="Serif">Serif</SelectItem>
+                  <SelectItem value="Monospace">Monospace</SelectItem>
+                  <SelectItem value="Audiowide">Audiowide</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </div>
-      <div className="text-2xl text-black flex items-center justify-center py-2 ">
+      <div className="text-xl text-black flex items-center justify-center py-2 ">
         Select from a wide range of Frames:
       </div>
       <div className="relative flex flex-wrap justify-center">

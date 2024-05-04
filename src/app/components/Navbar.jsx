@@ -1,7 +1,4 @@
 'use client'
-import Link from 'next/link'
-import Image from 'next/image'
-import userlogo from '../user.png'
 import { useState } from 'react'
 import { CiHeart } from 'react-icons/ci'
 import { FaCircleUser } from 'react-icons/fa6'
@@ -9,6 +6,7 @@ import { GoHome } from 'react-icons/go'
 import { MdOutlineDashboard } from 'react-icons/md'
 import { MdContactSupport } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const Navbar = () => {
   const router = useRouter()
@@ -37,12 +35,12 @@ const Navbar = () => {
         <div className="flex items-center">
           <div className="mr-4">
             <img
-              src="/smart_ariser.png"
-              className="w-22 h-10 cursor-pointer"
+              src="/smart_ariser_logo.png"
+              className="w-[108px] h-[70px] -my-2 cursor-pointer"
               onClick={handleLogoClick}
             />
           </div>
-          <div className="hidden justify-center text-lg items-center px-40 ml-48 md:flex lg:flex space-x-28">
+          <div className="hidden justify-center text-lg items-center px-40 ml-28 md:flex lg:flex space-x-28">
             <a
               href="javascript:void(0);"
               className="hover:text-gray-700 flex"
