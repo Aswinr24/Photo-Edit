@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { CiHeart } from 'react-icons/ci'
 
 const page = () => {
   const searchParams = useSearchParams()
@@ -50,7 +51,7 @@ const page = () => {
   const [phoneVisible, setPhoneVisible] = useState(true)
   const [emailVisible, setEmailVisible] = useState(true)
   const [websiteVisible, setWebsiteVisible] = useState(true)
-  const [selectedFrameIndex, setSelectedFrameIndex] = useState(0)
+  const [selectedFrameIndex, setSelectedFrameIndex] = useState(6)
   const [showFrame, setShowFrame] = useState(true)
   const [showCustomFrame, setShowCustomFrame] = useState(false)
   const [showContents, setShowContents] = useState(true)
@@ -158,25 +159,25 @@ const page = () => {
 
   const framePositions = [
     {
-      name: 'absolute -top-[470px] mb-60 flex -right-80 mr-12',
-      email: '-bottom-0 mb-8 flex text-black',
-      phone: '-bottom-0 mb-12 pb-2 flex text-black',
-      website: '-bottom-0 mb-8 left-72 text-black flex',
+      name: 'absolute -top-[490px] mb-60 flex -right-80 mr-12',
+      email: '-bottom-0 -right-56 mb-9 flex text-black',
+      phone: '-bottom-0 mb-14 pb-1 flex text-black',
+      website: '-bottom-0 mb-9 -right-[440px] left-72 text-black flex',
       location: '-bottom-0 mb-3 -right-80 mr-6 text-black flex-row',
     },
     {
-      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
-      email: '-bottom-64 mb-3 flex -left-56 text-white',
-      phone: '-bottom-56 flex -left-56 mb-1 text-black',
-      website: 'flex -bottom-56 mb-1 left-16 text-black',
-      location: 'flex -bottom-64 -right-60 mr-8 mb-4 text-black',
+      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
+      email: '-bottom-0 mb-2 flex -left-0 text-white',
+      phone: '-bottom-0 flex mb-8 left-0 text-black',
+      website: 'flex -bottom-0 mb-8 -right-[420px] text-black',
+      location: 'flex -bottom-0 -right-[428px] mb-3 text-black',
     },
     {
-      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
-      email: '-bottom-64 mb-3 flex -left-56 text-white',
-      phone: '-bottom-56 flex -left-40 mb-2 text-white',
-      website: '-bottom-56 flex -left-4 mb-2 text-white',
-      location: '-bottom-64 mb-3 flex -right-60 mr-10 text-white',
+      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
+      email: '-bottom-0 mb-3 flex ml-3 -left-0 text-white',
+      phone: '-bottom-0 mb-9 flex left-10 text-white',
+      website: '-bottom-0 flex -right-[380px] mb-9 text-white',
+      location: '-bottom-0 mb-3 flex -right-[450px] mr-10 text-white',
     },
     {
       name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
@@ -186,25 +187,25 @@ const page = () => {
       location: 'bottom-20 left-20',
     },
     {
-      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
-      email: '-bottom-64 mb-7 flex -left-2 text-black',
-      phone: '-bottom-64 mb-7 flex -left-40 text-black',
-      website: '-bottom-72 mb-10 flex -left-56 ml-5 text-black',
-      location: '-bottom-72 mb-10 flex -right-60 mr-16 text-black',
+      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
+      email: '-bottom-0 mb-7 flex -right-[428px] text-black',
+      phone: '-bottom-0 mb-7 flex left-16 text-black',
+      website: '-bottom-0 mb-1 flex left-6 text-black',
+      location: '-bottom-0 mb-2 flex -right-[456px] mr-16 text-black',
     },
     {
-      name: 'absolute -top-60 mt-4 flex -left-60 ml-8',
-      email: '-bottom-64 mb-5 flex right-4',
-      phone: '-bottom-56 mb-2 flex right-36',
-      website: '-top-60 mt-4 flex left-20',
-      location: '-bottom-60 mb-2 -right-60 mr-10',
+      name: 'absolute -top-[480px] flex -right-40 mr-6',
+      email: '-bottom-0 mb-3 flex left-2',
+      phone: '-bottom-0 mb-8 flex left-0',
+      website: '-top-[480px] flex -right-[420px]',
+      location: '-bottom-0 mb-4 -right-[424px] ',
     },
     {
-      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
-      email: '-bottom-56 mb-5 flex -left-28 text-black text-sm',
-      phone: '-bottom-56 mb-4 flex -left-60 ml-4 text-black',
-      website: '-bottom-56 mb-5 flex left-24 ml-2 text-black text-sm',
-      location: '-bottom-60 -right-40 -left-20 ',
+      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
+      email: '-bottom-0 mb-4 flex left-28 ml-1 text-black text-sm',
+      phone: '-bottom-0 mb-3 flex -left-2 text-black',
+      website: '-bottom-0 mb-4 flex left-80 ml-2 text-black text-sm',
+      location: '-bottom-0 mb-10 -right-80 mr-10',
     },
   ]
 
@@ -267,7 +268,7 @@ const page = () => {
                 alt="customFrame"
                 width={490}
                 height={64}
-                className={`absolute bottom-28 rounded-lg ${
+                className={`absolute bottom-6 mb-1 ml-1.5 rounded-lg ${
                   showCustomFrame ? 'block' : 'hidden'
                 }`}
               />
@@ -293,7 +294,7 @@ const page = () => {
                       selectedFrameIndex
                     )}`}
                   >
-                    <FaPhone className="h-4 w-4 mx-1 mt-1 " />
+                    <FaPhone className="h-4 w-4 mx-2 mt-1 " />
                     9354721223
                   </p>
                 )}
@@ -327,7 +328,7 @@ const page = () => {
                     )}`}
                   >
                     <p className="flex">
-                      <FaLocationDot className="h-4 w-4 mx-1 mt-1 text-black" />
+                      <FaLocationDot className="h-4 w-4 mx-0.5 mt-1 text-black" />
                       Indiranagar, Bengaluru
                     </p>
                   </div>
@@ -553,8 +554,16 @@ const page = () => {
         <MdArrowCircleLeft className="absolute top-20 left-16 w-9 cursor-pointer h-10 text-purple-400" />
         <MdArrowCircleRight className="absolute top-20 w-9 h-10 cursor-pointer right-16 text-purple-400" />
       </div>
-      <div className="py-10 text-3xl text-purple-500 flex justify-center items-center cursor-pointer">
-        <FaDownload className="w-6 h-6 mx-2" onClick={getImage} /> Download
+      <div className="py-10 flex gap-10 justify-center items-center ">
+        <div
+          className="text-3xl text-purple-500 flex cursor-pointer"
+          onClick={getImage}
+        >
+          <FaDownload className="w-6 h-6 mx-2 mt-1" /> Download
+        </div>
+        <div className="px-6 text-xl cursor-pointer text-purple-400 flex">
+          <CiHeart className="w-6 h-6 mx-2" /> Add to favourites
+        </div>
       </div>
     </main>
   )
