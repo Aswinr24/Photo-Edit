@@ -158,11 +158,11 @@ const page = () => {
 
   const framePositions = [
     {
-      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
-      email: '-bottom-64 mb-9 -left-56 ml-2 flex text-black',
-      phone: '-bottom-56 mb-7 -left-48 flex text-black',
-      website: '-bottom-64 mb-9 left-10 text-black flex',
-      location: '-bottom-64 mb-3 -left-40 -right-20 ml-16 text-black flex-row',
+      name: 'absolute -top-[470px] mb-60 flex -right-80 mr-12',
+      email: '-bottom-0 mb-8 flex text-black',
+      phone: '-bottom-0 mb-12 pb-2 flex text-black',
+      website: '-bottom-0 mb-8 left-72 text-black flex',
+      location: '-bottom-0 mb-3 -right-80 mr-6 text-black flex-row',
     },
     {
       name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
@@ -219,121 +219,121 @@ const page = () => {
   return (
     <main className="bg-violet-50">
       <Navbar />
-      <main className="bg-violet-50 relative">
-        <div
-          className="py-10 mt-10 flex items-center justify-center"
-          ref={componentRef}
-        >
+      <main className="bg-violet-50">
+        <div className="py-10 mt-10 flex items-center justify-center">
           <div className=" border-purple-300 border-2 p-2 rounded-lg">
-            <Image
-              src={imagePath}
-              alt="diwali"
-              className="p-2 rounded-2xl"
-              width={500}
-              height={400}
-            />
-          </div>
-          <div
-            className={`absolute h-[470px] w-[480px] ${
-              showContents ? 'block' : 'hidden'
-            }`}
-          >
-            {logoVisible && (
-              <Draggable bounds="parent">
-                <div className="absolute top-0 text-black text-3xl cursor-pointer">
-                  <Image src="/logo.png" height={30} width={90} />
-                </div>
-              </Draggable>
-            )}
-          </div>
+            <div ref={componentRef}>
+              <Image
+                src={imagePath}
+                alt="diwali"
+                className="p-2 rounded-2xl"
+                width={500}
+                height={400}
+              />
 
-          <Image
-            src={
-              selectedFrameIndex !== -1
-                ? frames[selectedFrameIndex]
-                : '/frames/frame1.png'
-            }
-            alt="frame1"
-            className={`absolute bottom-28 pb-0.5 rounded-lg ${
-              showFrame ? 'block' : 'hidden'
-            }`}
-            width={484}
-            height={60}
-          />
-          <Image
-            src={
-              showCustomFrame
-                ? customframes[selectedCustomFrameIndex]
-                : '/frames/customframe1.png'
-            }
-            alt="customFrame"
-            width={490}
-            height={64}
-            className={`absolute bottom-28 pb-0.5 rounded-lg ${
-              showCustomFrame ? 'block' : 'hidden'
-            }`}
-          />
-          <div
-            className={`absolute mb-2 ml-4 text-black rounded-2xl flex px-4 ${
-              showContents ? 'block' : 'hidden'
-            }`}
-          >
-            {nameVisible && (
-              <p
-                className={`absolute text-black text-xl font-semibold ${getPropertyPosition(
-                  'name',
-                  selectedFrameIndex
-                )}`}
-              >
-                Next Associates
-              </p>
-            )}
-            {phoneVisible && (
-              <p
-                className={`absolute ${getPropertyPosition(
-                  'phone',
-                  selectedFrameIndex
-                )}`}
-              >
-                <FaPhone className="h-4 w-4 mx-1 mt-1 " />
-                9354721223
-              </p>
-            )}
-            {emailVisible && (
-              <p
-                className={`absolute ${getPropertyPosition(
-                  'email',
-                  selectedFrameIndex
-                )}`}
-              >
-                <MdEmail className="h-4 w-4 mx-0.5 mt-1" />
-                nextgenassociates@gmail.com
-              </p>
-            )}
-            {websiteVisible && (
-              <p
-                className={`absolute ${getPropertyPosition(
-                  'website',
-                  selectedFrameIndex
-                )}`}
-              >
-                <CiGlobe className="h-4 w-4 mx-0.5 mt-1" />
-                nextassociates.xyz
-              </p>
-            )}
-            {locationVisible && (
               <div
-                className={`absolute ${getPropertyPosition(
-                  'location',
-                  selectedFrameIndex
-                )}`}
+                className={`absolute top-48 ml-2 h-[400px] w-[480px] ${
+                  showContents ? 'block' : 'hidden'
+                }`}
               >
-                <p className="flex">
-                  <FaLocationDot className="h-4 w-4 mx-1 mt-1 text-black" />
-                  Indiranagar, Bengaluru
-                </p>
+                {logoVisible && (
+                  <Draggable bounds="parent">
+                    <div className="absolute text-black text-3xl cursor-pointer">
+                      <Image src="/logo.png" height={30} width={90} />
+                    </div>
+                  </Draggable>
+                )}
               </div>
-            )}
+
+              <Image
+                src={
+                  selectedFrameIndex !== -1
+                    ? frames[selectedFrameIndex]
+                    : '/frames/frame1.png'
+                }
+                alt="frame1"
+                className={`absolute bottom-6 mb-0.5 ml-2 rounded-lg ${
+                  showFrame ? 'block' : 'hidden'
+                }`}
+                width={484}
+                height={60}
+              />
+              <Image
+                src={
+                  showCustomFrame
+                    ? customframes[selectedCustomFrameIndex]
+                    : '/frames/customframe1.png'
+                }
+                alt="customFrame"
+                width={490}
+                height={64}
+                className={`absolute bottom-28 rounded-lg ${
+                  showCustomFrame ? 'block' : 'hidden'
+                }`}
+              />
+              <div
+                className={`absolute mb-2 ml-4 text-black rounded-2xl flex px-4 ${
+                  showContents ? 'block' : 'hidden'
+                }`}
+              >
+                {nameVisible && (
+                  <p
+                    className={`absolute text-black text-xl font-semibold ${getPropertyPosition(
+                      'name',
+                      selectedFrameIndex
+                    )}`}
+                  >
+                    Next Associates
+                  </p>
+                )}
+                {phoneVisible && (
+                  <p
+                    className={`absolute ${getPropertyPosition(
+                      'phone',
+                      selectedFrameIndex
+                    )}`}
+                  >
+                    <FaPhone className="h-4 w-4 mx-1 mt-1 " />
+                    9354721223
+                  </p>
+                )}
+                {emailVisible && (
+                  <p
+                    className={`absolute ${getPropertyPosition(
+                      'email',
+                      selectedFrameIndex
+                    )}`}
+                  >
+                    <MdEmail className="h-4 w-4 mx-0.5 mt-1" />
+                    nextgenassociates@gmail.com
+                  </p>
+                )}
+                {websiteVisible && (
+                  <p
+                    className={`absolute ${getPropertyPosition(
+                      'website',
+                      selectedFrameIndex
+                    )}`}
+                  >
+                    <CiGlobe className="h-4 w-4 mx-0.5 mt-1" />
+                    nextassociates.xyz
+                  </p>
+                )}
+                {locationVisible && (
+                  <div
+                    className={`absolute ${getPropertyPosition(
+                      'location',
+                      selectedFrameIndex
+                    )}`}
+                  >
+                    <p className="flex">
+                      <FaLocationDot className="h-4 w-4 mx-1 mt-1 text-black" />
+                      Indiranagar, Bengaluru
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex gap-4 items-center justify-center pb-4">

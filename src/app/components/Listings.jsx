@@ -56,7 +56,7 @@ const Listings = () => {
     <main className="text-3xl text-black p-10">
       <div className="w-full mb-6 relative flex justify-center items-center">
         <FaAngleLeft className="absolute w-12 h-12 text-purple-500 left-0 top-48 cursor-pointer" />
-        <img src="/banner.png" className="rounded w-[1200px] h-[480px]" />
+        <img src="/banner.png" className="rounded w-[1200px] h-[520px]" />
         <FaAngleRight className="absolute w-12 h-12 text-purple-500 right-0 top-48 cursor-pointer" />
       </div>
       <div className="flex items-center justify-center mb-6">
