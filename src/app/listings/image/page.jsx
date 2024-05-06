@@ -561,7 +561,7 @@ const page = () => {
         >
           <FaDownload className="w-6 h-6 mx-2 mt-1" /> Download
         </div>
-        <div className="px-6 text-xl cursor-pointer text-purple-400 flex">
+        <div className="px-6 text-xl cursor-pointer text-purple-500 flex">
           <CiHeart className="w-6 h-6 mx-2" /> Add to favourites
         </div>
       </div>

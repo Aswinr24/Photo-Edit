@@ -30,13 +30,13 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-purple-200 py-4 px-8 text-black">
+    <nav className="bg-purple-200 py-4 px-8 text-black shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
-          <div className="mr-4">
+          <div className="mr-2">
             <img
               src="/smart_ariser_logo.png"
-              className="w-[108px] h-[70px] -my-2 cursor-pointer"
+              className="w-[120px] h-[70px] -my-2 cursor-pointer"
               onClick={handleLogoClick}
             />
           </div>

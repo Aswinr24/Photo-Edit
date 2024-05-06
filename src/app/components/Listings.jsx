@@ -42,15 +42,17 @@ const Listings = () => {
   ]
 
   const images1 = [
-    '/Ramanavami_kannada.jpg',
-    '/Ramanavami.jpg',
-    '/Ramanavami2.jpg',
-    '/Ramanavami3.jpg',
-    '/Ramanavami4.jpg',
+    '/akshaya1.jpg',
+    '/akshaya2.jpg',
+    '/akshaya3.jpg',
+    '/akshaya4.png',
+    '/akshaya5.png',
+    '/akshaya6.png',
+    '/akshaya7.png',
   ]
 
-  const images2 = ['/heritageDay.jpg', '/heritageDay2.jpg']
-  const images3 = ['/liverDay.jpg', '/liverDay2.jpg']
+  const images2 = ['/buddha2.jpg', '/buddha3.jpg']
+  const images3 = ['/athletics1.png', '/athletics2.jpg']
 
   return (
     <main className="text-3xl text-black p-10">
@@ -89,7 +91,7 @@ const Listings = () => {
           className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
         />
       </div>
-      <div className="text-3xl text-black px-10 py-10">Rama Navami</div>
+      <div className="text-3xl text-black px-10 py-10">Akshaya Tritiya</div>
       <div className="relative overflow-hidden">
         <div
           className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
@@ -118,9 +120,7 @@ const Listings = () => {
       </div>
       <div className="flex gap-40">
         <div>
-          <div className="text-3xl text-black px-36 py-10">
-            World Heritage Day!
-          </div>
+          <div className="text-3xl text-black px-36 py-10">Buddha Purnima</div>
           <div className="flex gap-10 px-10">
             {images2.map((image, index) => (
               <img
@@ -134,7 +134,9 @@ const Listings = () => {
           </div>
         </div>
         <div>
-          <div className="text-3xl text-black px-48 py-10">World Liver Day</div>
+          <div className="text-3xl text-black px-48 py-10">
+            World Athletics Day
+          </div>
           <div className="flex gap-10 px-10">
             {images3.map((image, index) => (
               <img
