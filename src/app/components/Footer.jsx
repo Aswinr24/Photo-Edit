@@ -6,8 +6,8 @@ import { FaInstagram } from 'react-icons/fa'
 const Footer = () => {
   return (
     <main className="pt-4 bg-purple-200">
-      <div className="flex justify-between px-20">
-        <img src="/smart_ariser_logo2.png" className="w-32 h-28 ml-24 my-2" />
+      <div className="flex justify-between px-20 ml-10">
+        <img src="/smart_ariser_logo2.png" className="w-32-+ h-28 ml-24 my-2" />
         <div className="grid grid-cols-3 gap-16 mt-2 mx-10 pr-20">
           <div>
             <h2 className="mb-4 font-semibold text-black uppercase">Legal</h2>

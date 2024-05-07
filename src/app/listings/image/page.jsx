@@ -1,5 +1,5 @@
 'use client'
-import { React, useState, useRef } from 'react'
+import { React, useState, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { FaPhone } from 'react-icons/fa6'
@@ -26,8 +26,16 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { CiHeart } from 'react-icons/ci'
+import { useCapture } from 'react-capture'
 
 const page = () => {
+  const { snap } = useCapture()
+  const element = useRef(null)
+
+  const onClick = useCallback(() => {
+    snap(element, { file: 'download.png' })
+  }, [snap, element])
+
   const searchParams = useSearchParams()
 
   const [color, setColor] = useState('#000000')
@@ -51,7 +59,7 @@ const page = () => {
   const [phoneVisible, setPhoneVisible] = useState(true)
   const [emailVisible, setEmailVisible] = useState(true)
   const [websiteVisible, setWebsiteVisible] = useState(true)
-  const [selectedFrameIndex, setSelectedFrameIndex] = useState(6)
+  const [selectedFrameIndex, setSelectedFrameIndex] = useState(0)
   const [showFrame, setShowFrame] = useState(true)
   const [showCustomFrame, setShowCustomFrame] = useState(false)
   const [showContents, setShowContents] = useState(true)
@@ -160,10 +168,10 @@ const page = () => {
   const framePositions = [
     {
       name: 'absolute -top-[490px] mb-60 flex -right-80 mr-12',
-      email: '-bottom-0 -right-56 mb-9 flex text-black',
-      phone: '-bottom-0 mb-14 pb-1 flex text-black',
-      website: '-bottom-0 mb-9 -right-[440px] left-72 text-black flex',
-      location: '-bottom-0 mb-3 -right-80 mr-6 text-black flex-row',
+      email: '-bottom-0 -right-56 mb-10 flex text-black',
+      phone: '-bottom-0 mb-16  flex text-black',
+      website: '-bottom-0 mb-10 -right-[440px] left-72 text-black flex',
+      location: '-bottom-0 mb-4 -right-80 mr-6 text-black flex-row',
     },
     {
       name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
@@ -223,7 +231,7 @@ const page = () => {
       <main className="bg-violet-50">
         <div className="py-10 mt-10 flex items-center justify-center">
           <div className=" border-purple-300 border-2 p-2 rounded-lg">
-            <div ref={componentRef}>
+            <div ref={element}>
               <Image
                 src={imagePath}
                 alt="diwali"
@@ -557,7 +565,7 @@ const page = () => {
       <div className="py-10 flex gap-10 justify-center items-center ">
         <div
           className="text-3xl text-purple-500 flex cursor-pointer"
-          onClick={getImage}
+          onClick={onClick}
         >
           <FaDownload className="w-6 h-6 mx-2 mt-1" /> Download
         </div>

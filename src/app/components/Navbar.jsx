@@ -57,7 +57,7 @@ const Navbar = () => {
               <MdOutlineDashboard className="w-6 h-6 mr-1" />
               Dashboard
             </a>
-            <a href="#" className="hover:text-gray-700 flex">
+            <a href="/contact" className="hover:text-gray-700 flex">
               <MdContactSupport className="w-6 h-6 mr-1" />
               Contact Us
             </a>
