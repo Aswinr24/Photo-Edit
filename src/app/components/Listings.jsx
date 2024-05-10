@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react'
 import Image from 'next/image'
 import { MdArrowCircleRight } from 'react-icons/md'
 import { MdArrowCircleLeft } from 'react-icons/md'

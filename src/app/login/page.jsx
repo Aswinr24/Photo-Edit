@@ -43,7 +43,7 @@ const page = () => {
             Login
           </button>
           <h3 className="text-sm py-2 px-3 pb-4 text-gray-100">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <a
               href="#"
               class="text-md font-medium text-gray-800 hover:text-black"
