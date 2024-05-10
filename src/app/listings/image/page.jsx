@@ -28,7 +28,7 @@ import {
 import { CiHeart } from 'react-icons/ci'
 import { useCapture } from 'react-capture'
 
-const page = () => {
+export default function Page() {
   const { snap } = useCapture()
   const element = useRef(null)
 
@@ -577,5 +577,3 @@ const page = () => {
     </main>
   )
 }
-
-export default page
