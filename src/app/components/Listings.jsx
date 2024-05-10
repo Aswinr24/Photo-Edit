@@ -18,7 +18,7 @@ const Listings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api')
+        const res = await fetch('https://smart-ariser.vercel.app/api')
         const data = await res.json()
         const firstItem = data[0] || {}
         const { Image, Category } = firstItem
