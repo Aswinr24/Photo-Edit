@@ -232,7 +232,7 @@ const page = () => {
         <div className="py-10 mt-10 flex items-center justify-center">
           <div className=" border-purple-300 border-2 p-2 rounded-lg">
             <div ref={element}>
-              <Image
+              <img
                 src={imagePath}
                 alt="diwali"
                 className="p-2 rounded-2xl"
@@ -254,7 +254,7 @@ const page = () => {
                 )}
               </div>
 
-              <Image
+              <img
                 src={
                   selectedFrameIndex !== -1
                     ? frames[selectedFrameIndex]
@@ -267,7 +267,7 @@ const page = () => {
                 width={484}
                 height={60}
               />
-              <Image
+              <img
                 src={
                   showCustomFrame
                     ? customframes[selectedCustomFrameIndex]
@@ -287,10 +287,11 @@ const page = () => {
               >
                 {nameVisible && (
                   <p
-                    className={`absolute text-black text-xl font-semibold ${getPropertyPosition(
+                    className={`absolute text-xl font-semibold ${getPropertyPosition(
                       'name',
                       selectedFrameIndex
                     )}`}
+                    style={{ color: color }}
                   >
                     Next Associates
                   </p>
@@ -516,7 +517,7 @@ const page = () => {
             className="relative flex p-5 justify-center items-center "
             onClick={() => handleFrameClick(index)}
           >
-            <Image
+            <img
               src={imagePath}
               width={150}
               height={150}
@@ -543,13 +544,13 @@ const page = () => {
             className="relative flex p-5 justify-center items-center "
             onClick={() => handleCustomFrameClick(index)}
           >
-            <Image
+            <img
               src={imagePath}
               width={160}
               height={160}
               className="cursor-pointer mb-1"
             />
-            <Image
+            <img
               src={frame}
               width={index === 3 || index === 4 ? 180 : 180}
               height={index === 3 || index === 4 ? 60 : 180}
