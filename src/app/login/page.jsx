@@ -1,7 +1,6 @@
 'use client'
 import { React, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Error from 'next/error'
 
 const page = () => {
   const router = useRouter()
@@ -21,10 +20,11 @@ const page = () => {
         body: JSON.stringify({ phoneNumber, password }),
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
-        throw new Error('Invalid phone number or password')
+        setErrors(data.message)
       } else {
-        const data = await response.json()
         console.log(data)
         const { token } = data
         localStorage.setItem('token', token)
@@ -48,7 +48,7 @@ const page = () => {
           <h2 className="text-2xl py-4 px-24 font-semibold">
             Sign in to your account
           </h2>
-          {errors && <p className="text-red-500">{errors}</p>}
+          {errors && <p className="text-red-700 text-xl"> {errors}</p>}
           <h2 className="text-lg py-1">Phone no</h2>
           <input
             type="text"
@@ -67,10 +67,10 @@ const page = () => {
             </div>
           </div>
           <input
-            type="text"
+            type="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
-            className="bg-violet-200 text-black border placeholder:text-2xl my-2 border-gray-300 focus:border-purple-600 placeholder:text-purple-500 text-md rounded-xl block w-full ps-4 p-2.5"
+            className="bg-violet-200 text-black border placeholder:text-2xl my-2  border-gray-300 focus:border-purple-600 placeholder:text-purple-500 text-xl rounded-xl block w-full ps-4 p-2"
             placeholder="......"
             required
           />
