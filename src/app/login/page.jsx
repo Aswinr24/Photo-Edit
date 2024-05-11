@@ -1,8 +1,40 @@
 'use client'
-import React from 'react'
-import Image from 'next/image'
+import { React, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Error from 'next/error'
 
 const page = () => {
+  const router = useRouter()
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState('')
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const response = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber, password }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Invalid phone number or password')
+      } else {
+        const data = await response.json()
+        console.log(data)
+        const { token } = data
+        localStorage.setItem('token', token)
+        router.push('/')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <main className="bg-violet-200 p-10 h-screen flex items-center justify-center">
       <div className="px-6 pb-10 h-full">
@@ -16,12 +48,14 @@ const page = () => {
           <h2 className="text-2xl py-4 px-24 font-semibold">
             Sign in to your account
           </h2>
-          <h2 className="text-lg py-1">Your email</h2>
+          {errors && <p className="text-red-500">{errors}</p>}
+          <h2 className="text-lg py-1">Phone no</h2>
           <input
             type="text"
-            id="email"
+            id="phno"
+            onChange={(e) => setPhoneNumber(e.target.value)}
             className="bg-violet-200 border my-2 border-gray-300 focus:border-purple-600 text-black  placeholder:text-purple-500 text-md rounded-xl block w-full ps-4 p-2.5"
-            placeholder="e-mail"
+            placeholder="+91"
             required
           />
           <div class="flex items-center justify-between mt-1">
@@ -35,11 +69,15 @@ const page = () => {
           <input
             type="text"
             id="password"
+            onChange={(e) => setPassword(e.target.value)}
             className="bg-violet-200 text-black border placeholder:text-2xl my-2 border-gray-300 focus:border-purple-600 placeholder:text-purple-500 text-md rounded-xl block w-full ps-4 p-2.5"
             placeholder="......"
             required
           />
-          <button className="bg-purple-900 my-2 mt-5 rounded-xl w-full py-1.5 text-xl text-gray-200 hover:bg-purple-800">
+          <button
+            onClick={handleSubmit}
+            className="bg-purple-900 my-2 mt-5 rounded-xl w-full py-1.5 text-xl text-gray-200 hover:bg-purple-800"
+          >
             Login
           </button>
           <h3 className="text-sm py-2 px-3 pb-4 text-gray-100">
