@@ -1,5 +1,5 @@
 'use client'
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const page = () => {
@@ -10,7 +10,6 @@ const page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     try {
       const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
@@ -26,7 +25,8 @@ const page = () => {
         setErrors(data.message)
       } else {
         console.log(data)
-        const { token } = data
+        const token = data
+        console.log(token)
         localStorage.setItem('token', token)
         router.push('/')
       }
@@ -75,6 +75,7 @@ const page = () => {
             required
           />
           <button
+            type="submit"
             onClick={handleSubmit}
             className="bg-purple-900 my-2 mt-5 rounded-xl w-full py-1.5 text-xl text-gray-200 hover:bg-purple-800"
           >

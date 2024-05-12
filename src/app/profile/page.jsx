@@ -1,10 +1,43 @@
-import React from 'react'
+'use client'
+import { React, useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
-import Image from 'next/image'
 import { FaCircleUser } from 'react-icons/fa6'
 import { MdEdit } from 'react-icons/md'
 
 const page = () => {
+  const [userDetails, setUserDetails] = useState(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    console.log(token)
+
+    if (token) {
+      try {
+        fetchUserData(token)
+      } catch (error) {
+        console.log('hello')
+        console.error('Error fetching user data:', error)
+      }
+    }
+  }, [])
+
+  const fetchUserData = async (token) => {
+    await fetch('/api/profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUserDetails(data.user)
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error)
+      })
+  }
+
   return (
     <>
       <Navbar />
@@ -44,8 +77,9 @@ const page = () => {
                   type="text"
                   id="website-admin"
                   className="bg-gray-50 border border-gray-300 focus:border-purple-600 text-purple-400 placeholder:text-purple-500 text-md rounded-none rounded-e-xl block w-full ps-4 p-2.5"
-                  placeholder="Rahul"
+                  placeholder="Username"
                   disabled
+                  value={userDetails?.username}
                 />
                 <MdEdit className="w-7 h-7 mt-2 text-purple-400 cursor-pointer hover:text-gray-500" />
               </div>
@@ -77,7 +111,8 @@ const page = () => {
                   type="text"
                   id="input-group-1"
                   className="bg-gray-50 border border-gray-300 focus:border-purple-600 text-purple-400 placeholder:text-purple-500 text-md rounded-xl block w-full ps-10 p-2.5"
-                  placeholder="nextassociates@xyz.com"
+                  placeholder="email"
+                  value={userDetails?.email}
                   disabled
                 />
                 <MdEdit className="w-7 h-7 mt-2 text-purple-400 cursor-pointer hover:text-gray-500" />
@@ -111,7 +146,8 @@ const page = () => {
                   aria-describedby="helper-text-explanation"
                   className="bg-gray-50 border border-gray-300 focus:border-purple-600 text-purple-400 placeholder:text-purple-500 text-md rounded-xl block w-full ps-10 p-2.5"
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                  placeholder="9949494943"
+                  placeholder="+91"
+                  value={userDetails?.phonenumber}
                   disabled
                 />
                 <MdEdit className="w-7 h-7 mt-2 text-purple-400 cursor-pointer hover:text-gray-500" />
@@ -128,10 +164,11 @@ const page = () => {
             </label>
             <div className="flex gap-2">
               <input
-                type="password"
+                type="text"
                 id="password"
                 className="bg-gray-50 border border-gray-300 focus:border-purple-600 text-purple-400 placeholder:text-purple-800 text-lg rounded-xl block w-full ps-4 p-2.5"
                 placeholder="•••••••••"
+                disabled
               />
               <MdEdit className="w-7 h-7 mt-2 text-purple-400 cursor-pointer hover:text-gray-500" />
             </div>
@@ -150,8 +187,8 @@ const page = () => {
                   type="text"
                   id="company"
                   className="bg-gray-50 border border-gray-300 focus:border-purple-600 text-purple-400 placeholder:text-purple-500 text-md rounded-xl block w-full ps-4 p-2.5"
-                  placeholder="Next Associates"
-                  required
+                  placeholder="Your Business"
+                  value={userDetails?.business}
                   disabled
                 />
                 <MdEdit className="w-7 h-7 mt-2 text-purple-400 cursor-pointer hover:text-gray-500" />
