@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import { FaCircleUser } from 'react-icons/fa6'
 import { MdEdit } from 'react-icons/md'
 
-const page = () => {
+export default function Page() {
   const [userDetails, setUserDetails] = useState(null)
 
   useEffect(() => {
@@ -205,5 +205,3 @@ const page = () => {
     </>
   )
 }
-
-export default page

@@ -2,7 +2,7 @@
 import { React, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-const page = () => {
+export default function Page() {
   const router = useRouter()
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
@@ -95,5 +95,3 @@ const page = () => {
     </main>
   )
 }
-
-export default page
