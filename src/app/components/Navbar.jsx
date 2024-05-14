@@ -1,17 +1,34 @@
 'use client'
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { CiHeart } from 'react-icons/ci'
 import { FaCircleUser } from 'react-icons/fa6'
 import { GoHome } from 'react-icons/go'
 import { MdOutlineDashboard } from 'react-icons/md'
 import { MdContactSupport } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
+import jwtDecode from 'jwt-decode'
 import Image from 'next/image'
 
 const Navbar = () => {
   const router = useRouter()
 
   const [isOpen, setIsOpen] = useState(false)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token)
+        setUser({
+          username: decodedToken.username,
+          email: decodedToken.email,
+        })
+      } catch (error) {
+        console.error('Invalid token:', error)
+      }
+    }
+  }, [])
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -74,8 +91,12 @@ const Navbar = () => {
             {isOpen && (
               <div className="absolute right-0 mt-2 w-48 text-center bg-purple-100 border rounded-md shadow-lg z-10">
                 <div className="px-4 py-2">
-                  <p className="text-gray-800 font-bold">Someone</p>
-                  <p className="text-sm text-gray-600">sm@example.com</p>
+                  <p className="text-gray-800 font-bold">
+                    {user ? user.username : 'Someone'}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {user ? user.email : 'sm@example.com'}
+                  </p>
                 </div>
                 <hr className="border-gray-300" />
                 <a

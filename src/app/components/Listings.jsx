@@ -18,6 +18,8 @@ const Listings = () => {
   const [category4, setCategory4] = useState([])
   const [category5, setCategory5] = useState([])
 
+  const [firstImages, setFirstImages] = useState([])
+
   const router = useRouter()
 
   useEffect(() => {
@@ -42,6 +44,9 @@ const Listings = () => {
         setCategory3(categoryArrays[2] || [])
         setCategory4(categoryArrays[3] || [])
         setCategory5(categoryArrays[4] || [])
+
+        const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+        setFirstImages(firstImgs)
       } catch (error) {
         console.error('Failed to fetch data:', error)
       }
@@ -106,12 +111,40 @@ const Listings = () => {
         <img src="/banner.png" className="rounded w-[1200px] h-[520px]" />
         <FaAngleRight className="absolute w-12 h-12 text-purple-500 right-0 top-48 cursor-pointer" />
       </div>
-      <div className="flex items-center justify-center mb-6">
+      <div className="flex items-center justify-center my-4">
         Celebrations with your Branding!
+      </div>
+      <div className="pt-4">
+        <div className="relative overflow-hidden">
+          <div
+            className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+            style={{ transform: `translateX(-${currentIndex * 20}%)` }}
+          >
+            {firstImages.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                className={`w-60 h-100 rounded-lg cursor-pointer ${
+                  index === currentIndex ? 'translate-x-60' : 'translate-x-full'
+                }`}
+                alt={`Slide ${index}`}
+                onClick={() => handleClick(image)}
+              />
+            ))}
+          </div>
+          <MdArrowCircleLeft
+            onClick={prevSlide}
+            className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
+          />
+          <MdArrowCircleRight
+            onClick={nextSlide}
+            className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
+          />
+        </div>
       </div>
       {category1.length > 0 && (
         <div>
-          <div className="text-3xl text-black px-10 pb-8">{category1[0]}</div>
+          <div className="text-3xl text-black px-10 py-8">{category1[0]}</div>
           <div className="relative overflow-hidden">
             <div
               className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
@@ -151,6 +184,39 @@ const Listings = () => {
               style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
             >
               {category2.slice(1).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                    index === currentIndex1
+                      ? 'translate-x-60'
+                      : 'translate-x-full'
+                  }`}
+                  alt={`Slide ${index}`}
+                  onClick={() => handleClick(image)}
+                />
+              ))}
+            </div>
+            <MdArrowCircleLeft
+              onClick={prevSlide1}
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
+            />
+            <MdArrowCircleRight
+              onClick={nextSlide1}
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
+            />
+          </div>
+        </div>
+      )}
+      {category3.length > 0 && (
+        <div>
+          <div className="text-3xl text-black px-10 py-10">{category3[0]}</div>
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+              style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
+            >
+              {category3.slice(1).map((image, index) => (
                 <img
                   key={index}
                   src={image}
