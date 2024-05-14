@@ -12,7 +12,12 @@ const Listings = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currentIndex1, setCurrentIndex1] = useState(0)
   const [images, setImages] = useState([])
-  const [category, setCategory] = useState('')
+  const [category1, setCategory1] = useState([])
+  const [category2, setCategory2] = useState([])
+  const [category3, setCategory3] = useState([])
+  const [category4, setCategory4] = useState([])
+  const [category5, setCategory5] = useState([])
+
   const router = useRouter()
 
   useEffect(() => {
@@ -20,10 +25,23 @@ const Listings = () => {
       try {
         const res = await fetch('https://smart-ariser.vercel.app/api')
         const data = await res.json()
-        const firstItem = data[0] || {}
-        const { Image, Category } = firstItem
-        setImages(data.map((item) => item.Image))
-        setCategory(processCategoryString(Category))
+
+        const categoryMap = {}
+        data.forEach((item) => {
+          const category = processCategoryString(item.Category)
+          if (!categoryMap[category]) {
+            categoryMap[category] = [category]
+          }
+          categoryMap[category].push(item.Image)
+        })
+
+        const categoryArrays = Object.values(categoryMap)
+
+        setCategory1(categoryArrays[0] || [])
+        setCategory2(categoryArrays[1] || [])
+        setCategory3(categoryArrays[2] || [])
+        setCategory4(categoryArrays[3] || [])
+        setCategory5(categoryArrays[4] || [])
       } catch (error) {
         console.error('Failed to fetch data:', error)
       }
@@ -91,60 +109,72 @@ const Listings = () => {
       <div className="flex items-center justify-center mb-6">
         Celebrations with your Branding!
       </div>
-      <div className="text-3xl text-black px-10 pb-8">Labour Day</div>
-      <div className="relative overflow-hidden">
-        <div
-          className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-          style={{ transform: `translateX(-${currentIndex * 20}%)` }}
-        >
-          {images1.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              className={`w-60 h-100 rounded-lg cursor-pointer ${
-                index === currentIndex ? 'translate-x-60' : 'translate-x-full'
-              }`}
-              alt={`Slide ${index}`}
-              onClick={() => handleClick(image)}
+      {category1.length > 0 && (
+        <div>
+          <div className="text-3xl text-black px-10 pb-8">{category1[0]}</div>
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+              style={{ transform: `translateX(-${currentIndex * 20}%)` }}
+            >
+              {category1.slice(1).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                    index === currentIndex
+                      ? 'translate-x-60'
+                      : 'translate-x-full'
+                  }`}
+                  alt={`Slide ${index}`}
+                  onClick={() => handleClick(image)}
+                />
+              ))}
+            </div>
+            <MdArrowCircleLeft
+              onClick={prevSlide}
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
             />
-          ))}
-        </div>
-        <MdArrowCircleLeft
-          onClick={prevSlide}
-          className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
-        />
-        <MdArrowCircleRight
-          onClick={nextSlide}
-          className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
-        />
-      </div>
-      <div className="text-3xl text-black px-10 py-10">{category}</div>
-      <div className="relative overflow-hidden">
-        <div
-          className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-          style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
-        >
-          {images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              className={`w-60 h-100 rounded-lg cursor-pointer ${
-                index === currentIndex1 ? 'translate-x-60' : 'translate-x-full'
-              }`}
-              alt={`Slide ${index}`}
-              onClick={() => handleClick(image)}
+            <MdArrowCircleRight
+              onClick={nextSlide}
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
             />
-          ))}
+          </div>
         </div>
-        <MdArrowCircleLeft
-          onClick={prevSlide1}
-          className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
-        />
-        <MdArrowCircleRight
-          onClick={nextSlide1}
-          className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
-        />
-      </div>
+      )}
+      {category2.length > 0 && (
+        <div>
+          <div className="text-3xl text-black px-10 py-10">{category2[0]}</div>
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+              style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
+            >
+              {category2.slice(1).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                    index === currentIndex1
+                      ? 'translate-x-60'
+                      : 'translate-x-full'
+                  }`}
+                  alt={`Slide ${index}`}
+                  onClick={() => handleClick(image)}
+                />
+              ))}
+            </div>
+            <MdArrowCircleLeft
+              onClick={prevSlide1}
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
+            />
+            <MdArrowCircleRight
+              onClick={nextSlide1}
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
+            />
+          </div>
+        </div>
+      )}
       <div className="flex gap-40">
         <div>
           <div className="text-3xl text-black px-36 py-10">Buddha Purnima</div>
