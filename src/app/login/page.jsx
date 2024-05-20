@@ -11,13 +11,16 @@ export default function Page() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ phoneNumber, password }),
-      })
+      const response = await fetch(
+        'https://smart-ariser.vercel.app/api/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ phoneNumber, password }),
+        }
+      )
 
       const data = await response.json()
 
@@ -28,7 +31,7 @@ export default function Page() {
         const token = data
         console.log(token)
         localStorage.setItem('token', token)
-        router.push('/')
+        router.push('https://smart-ariser.vercel.app')
       }
     } catch (error) {
       console.log(error)
