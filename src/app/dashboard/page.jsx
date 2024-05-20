@@ -19,7 +19,7 @@ export default function Page() {
         const fetchData = async () => {
           try {
             const savedResponse = await fetch(
-              'http://localhost:3000/api/dashboard/saved',
+              'https://smart-ariser.vercel.app/api/dashboard/saved',
               {
                 method: 'POST',
                 headers: {
@@ -37,7 +37,7 @@ export default function Page() {
             }
 
             const downloadedResponse = await fetch(
-              'http://localhost:3000/api/dashboard/downloaded',
+              'https://smart-ariser.vercel.app/api/dashboard/downloaded',
               {
                 method: 'POST',
                 headers: {
