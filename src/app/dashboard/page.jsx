@@ -1,23 +1,70 @@
-import React from 'react'
+'use client'
+import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import '../.././app/styles.css'
+import { jwtDecode } from 'jwt-decode'
 
-const page = () => {
-  const downloads = [
-    '/liverDay.jpg',
-    '/heritageDay.jpg',
-    '/labor_day.jpg',
-    '/labor_day3.jpg',
-    '/Ramanavami_kannada.jpg',
-    '/Ramanavami2.jpg',
-  ]
+export default function Page() {
+  const [useremail, setUseremail] = useState(null)
+  const [savedImages, setSavedImages] = useState([])
+  const [downloadedImages, setDownloadedImages] = useState([])
 
-  const saved = [
-    '/liverDay2.jpg',
-    '/heritageDay2.jpg',
-    '/labor_day2.jpg',
-    '/labor_day6.jpg',
-  ]
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token)
+        setUseremail(decodedToken.email)
+
+        const fetchData = async () => {
+          try {
+            const savedResponse = await fetch(
+              'http://localhost:3000/api/dashboard/saved',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ useremail: decodedToken.email }),
+              }
+            )
+            const savedData = await savedResponse.json()
+            if (savedResponse.ok) {
+              const savedImageUrls = savedData.savedImages.map(
+                (imgObj) => imgObj.images
+              )
+              setSavedImages(savedImageUrls)
+            }
+
+            const downloadedResponse = await fetch(
+              'http://localhost:3000/api/dashboard/downloaded',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ useremail: decodedToken.email }),
+              }
+            )
+            const downloadedData = await downloadedResponse.json()
+            if (downloadedResponse.ok) {
+              const downloadedImageUrls = downloadedData.savedImages.map(
+                (imgObj) => imgObj.images
+              )
+              setDownloadedImages(downloadedImageUrls)
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error)
+          }
+        }
+
+        fetchData()
+      } catch (error) {
+        console.error('Invalid token:', error)
+      }
+      console.log(savedImages)
+    }
+  }, [])
 
   return (
     <>
@@ -57,27 +104,31 @@ const page = () => {
           <div>
             <h1 className="text-xl text-black">Downloads / Selections : </h1>
             <div className="py-4 px-4 flex-col columns-3 gap-6">
-              {downloads.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  className={`w-48 h-48 mb-6 rounded-lg cursor-pointer `}
-                  alt={`Slide ${index}`}
-                />
-              ))}
+              {downloadedImages &&
+                downloadedImages.length > 0 &&
+                downloadedImages.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    className={`w-48 h-48 mb-6 rounded-lg cursor-pointer `}
+                    alt={`Slide ${index}`}
+                  />
+                ))}
             </div>
           </div>
           <div className="px-6 ml-6">
             <h1 className="text-xl ml-16 text-black">Saved Images: </h1>
             <div className="py-4 px-4 flex-col ml-20 columns-2 gap-6">
-              {saved.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  className={`w-48 h-48 mb-6 rounded-lg cursor-pointer `}
-                  alt={`Slide ${index}`}
-                />
-              ))}
+              {savedImages &&
+                savedImages.length > 0 &&
+                savedImages.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    className={`w-48 h-48 mb-6 rounded-lg cursor-pointer `}
+                    alt={`Slide ${index}`}
+                  />
+                ))}
             </div>
           </div>
         </div>
@@ -85,5 +136,3 @@ const page = () => {
     </>
   )
 }
-
-export default page

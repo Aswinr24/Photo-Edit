@@ -1,5 +1,5 @@
 'use client'
-import { React, useState, useRef, useCallback } from 'react'
+import { React, useState, useRef, useCallback, useEffect } from 'react'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { FaPhone } from 'react-icons/fa6'
@@ -27,16 +27,46 @@ import {
 } from '@/components/ui/select'
 import { CiHeart } from 'react-icons/ci'
 import { useCapture } from 'react-capture'
+import { jwtDecode } from 'jwt-decode'
 
 export default function Page() {
   const { snap } = useCapture()
   const element = useRef(null)
-
-  const onClick = useCallback(() => {
-    snap(element, { file: 'download.png' })
-  }, [snap, element])
-
+  const [useremail, setUseremail] = useState(null)
   const searchParams = useSearchParams()
+  const imagePath = searchParams.get('imagePath')
+  const [imageClasses, setImageClasses] = useState(
+    '-bottom-2 mb-16 flex text-black'
+  )
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token)
+        setUseremail(decodedToken.email)
+      } catch (error) {
+        console.error('Invalid token:', error)
+      }
+    }
+  }, [])
+
+  const handleDownloadImage = async () => {
+    const response = await fetch('http://localhost:3000/api/image', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ useremail, imagePath, imageType: 'downloaded' }),
+    })
+
+    const data = await response.json()
+    if (response.ok) {
+      setMessage('Image downloaded successfully!')
+    } else {
+      setMessage(`Error: ${data.error}`)
+    }
+  }
 
   const [color, setColor] = useState('#000000')
   const [showColorPicker, setShowColorPicker] = useState(false)
@@ -51,8 +81,6 @@ export default function Page() {
     setShowColorPicker(false)
   }
 
-  const imagePath = searchParams.get('imagePath')
-
   const [nameVisible, setNameVisible] = useState(true)
   const [logoVisible, setLogoVisible] = useState(true)
   const [locationVisible, setLocationVisible] = useState(true)
@@ -64,6 +92,9 @@ export default function Page() {
   const [showCustomFrame, setShowCustomFrame] = useState(false)
   const [showContents, setShowContents] = useState(true)
   const [selectedCustomFrameIndex, setSelectedCustomFrameIndex] = useState(0)
+  const [message, setMessage] = useState('')
+  const [showNotification, setShowNotification] = useState(false)
+  const saveButtonRef = useRef(null)
   const frames = [
     '/frames/frame1.png',
     '/frames/frame2.png',
@@ -98,21 +129,6 @@ export default function Page() {
   }
 
   const getImage = () => takeScreenShot(componentRef.current).then(download)
-
-  const downloadImage = () => {
-    const node = componentRef.current
-
-    toPng(node)
-      .then(function (dataUrl) {
-        const link = document.createElement('a')
-        link.download = 'component.png'
-        link.href = dataUrl
-        link.click()
-      })
-      .catch(function (error) {
-        console.error('Error:', error)
-      })
-  }
 
   const toggleVisibility = (component) => {
     switch (component) {
@@ -169,7 +185,7 @@ export default function Page() {
     {
       name: 'absolute -top-[490px] mb-60 flex -right-80 mr-12',
       email: '-bottom-0 -right-56 mb-10 flex text-black',
-      phone: '-bottom-0 mb-16  flex text-black',
+      phone: imageClasses,
       website: '-bottom-0 mb-10 -right-[440px] left-72 text-black flex',
       location: '-bottom-0 mb-4 -right-80 mr-6 text-black flex-row',
     },
@@ -223,6 +239,37 @@ export default function Page() {
       return framePositions[index][property] || defaultPosition
     }
     return defaultPosition
+  }
+
+  const handleSaveImage = async () => {
+    const response = await fetch('http://localhost:3000/api/image', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ useremail, imagePath, imageType: 'saved' }),
+    })
+
+    const data = await response.json()
+    if (response.ok) {
+      setMessage('Image saved successfully!')
+      setShowNotification(true)
+      setTimeout(() => {
+        setShowNotification(false)
+      }, 3000)
+    } else {
+      setMessage(`Error: ${data.error}`)
+    }
+  }
+
+  const downloadImage = useCallback(() => {
+    snap(element, { file: 'download.png' })
+  }, [snap, element])
+
+  const onClick = () => {
+    // setImageClasses('-bottom-2 mb-20 flex text-black')
+    handleDownloadImage()
+    downloadImage()
   }
 
   return (
@@ -303,8 +350,11 @@ export default function Page() {
                       selectedFrameIndex
                     )}`}
                   >
-                    <FaPhone className="h-4 w-4 mx-2 mt-1 " />
-                    9354721223
+                    <img
+                      src="/phone.png"
+                      className="absolute h-3 w-3 mt-4 left-0"
+                    />
+                    <p className="ml-4 mb-3"> 9354721223</p>
                   </p>
                 )}
                 {emailVisible && (
@@ -314,8 +364,11 @@ export default function Page() {
                       selectedFrameIndex
                     )}`}
                   >
-                    <MdEmail className="h-4 w-4 mx-0.5 mt-1" />
-                    nextgenassociates@gmail.com
+                    <img
+                      src="/email.png"
+                      className="absolute h-3 w-4 mt-4 left-0"
+                    />
+                    <p className="ml-6 mb-1">nextgenassociates@gmail.com</p>
                   </p>
                 )}
                 {websiteVisible && (
@@ -325,8 +378,11 @@ export default function Page() {
                       selectedFrameIndex
                     )}`}
                   >
-                    <CiGlobe className="h-4 w-4 mx-0.5 mt-1" />
-                    nextassociates.xyz
+                    <img
+                      src="/web.png"
+                      className="absolute h-3 w-3 mx-0.5 mt-4 left-0"
+                    />
+                    <p className="ml-4 mb-1">nextassociates.xyz</p>
                   </p>
                 )}
                 {locationVisible && (
@@ -337,8 +393,11 @@ export default function Page() {
                     )}`}
                   >
                     <p className="flex">
-                      <FaLocationDot className="h-4 w-4 mx-0.5 mt-1 text-black" />
-                      Indiranagar, Bengaluru
+                      <img
+                        src="/location.png"
+                        className="absolute h-4 w-4 mt-3 text-black left-0"
+                      />
+                      <p className="ml-5 mb-0">Indiranagar, Bengaluru</p>
                     </p>
                   </div>
                 )}
@@ -570,9 +629,18 @@ export default function Page() {
         >
           <FaDownload className="w-6 h-6 mx-2 mt-1" /> Download
         </div>
-        <div className="px-6 text-xl cursor-pointer text-purple-500 flex">
+        <div
+          className="px-6 text-xl cursor-pointer text-purple-500 flex"
+          onClick={handleSaveImage}
+          ref={saveButtonRef}
+        >
           <CiHeart className="w-6 h-6 mx-2" /> Add to favourites
         </div>
+        {showNotification && (
+          <div className="absolute px-20 mt-16 mr-2 flex items-center justify-center rounded-xl bg-purple-600 bg-opacity-50">
+            <div className="text-2xl text-white">{message}</div>
+          </div>
+        )}
       </div>
     </main>
   )

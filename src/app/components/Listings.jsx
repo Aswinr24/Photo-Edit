@@ -11,6 +11,10 @@ import '../.././app/styles.css'
 const Listings = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currentIndex1, setCurrentIndex1] = useState(0)
+  const [currentIndex2, setCurrentIndex2] = useState(0)
+  const [currentIndex3, setCurrentIndex3] = useState(0)
+  const [currentIndex4, setCurrentIndex4] = useState(0)
+  const [currentIndex5, setCurrentIndex5] = useState(0)
   const [images, setImages] = useState([])
   const [category1, setCategory1] = useState([])
   const [category2, setCategory2] = useState([])
@@ -78,28 +82,39 @@ const Listings = () => {
   const prevSlide1 = () => {
     setCurrentIndex1((prevIndex1) => prevIndex1 - 1)
   }
+  const nextSlide2 = () => {
+    setCurrentIndex2((prevIndex2) => prevIndex2 + 2)
+  }
+
+  const prevSlide2 = () => {
+    setCurrentIndex2((prevIndex2) => prevIndex2 - 1)
+  }
+  const nextSlide3 = () => {
+    setCurrentIndex3((prevIndex3) => prevIndex3 + 2)
+  }
+
+  const prevSlide3 = () => {
+    setCurrentIndex3((prevIndex3) => prevIndex3 - 1)
+  }
+  const nextSlide4 = () => {
+    setCurrentIndex4((prevIndex4) => prevIndex4 + 2)
+  }
+
+  const prevSlide4 = () => {
+    setCurrentIndex4((prevIndex4) => prevIndex4 - 1)
+  }
+
+  const nextSlide5 = () => {
+    setCurrentIndex5((prevIndex5) => prevIndex5 + 2)
+  }
+
+  const prevSlide5 = () => {
+    setCurrentIndex5((prevIndex5) => prevIndex5 - 1)
+  }
 
   const handleClick = (imagePath) => {
     router.push(`/listings/image?imagePath=${encodeURIComponent(imagePath)}`)
   }
-  const images1 = [
-    '/labor_day.jpg',
-    '/labor_day2.jpg',
-    '/labor_day3.jpg',
-    '/labor_day4.jpg',
-    '/labor_day5.jpg',
-    '/labor_day6.jpg',
-  ]
-
-  const images2 = [
-    '/akshaya1.jpg',
-    '/akshaya2.jpg',
-    '/akshaya3.jpg',
-    '/akshaya4.png',
-    '/akshaya5.png',
-    '/akshaya6.png',
-    '/akshaya7.png',
-  ]
 
   const images3 = ['/buddha2.jpg', '/buddha3.jpg']
   const images4 = ['/athletics1.png', '/athletics2.jpg']
@@ -148,14 +163,14 @@ const Listings = () => {
           <div className="relative overflow-hidden">
             <div
               className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-              style={{ transform: `translateX(-${currentIndex * 20}%)` }}
+              style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
             >
               {category1.slice(1).map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   className={`w-60 h-100 rounded-lg cursor-pointer ${
-                    index === currentIndex
+                    index === currentIndex1
                       ? 'translate-x-60'
                       : 'translate-x-full'
                   }`}
@@ -165,11 +180,11 @@ const Listings = () => {
               ))}
             </div>
             <MdArrowCircleLeft
-              onClick={prevSlide}
+              onClick={prevSlide1}
               className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
             />
             <MdArrowCircleRight
-              onClick={nextSlide}
+              onClick={nextSlide1}
               className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
             />
           </div>
@@ -181,14 +196,14 @@ const Listings = () => {
           <div className="relative overflow-hidden">
             <div
               className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-              style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
+              style={{ transform: `translateX(-${currentIndex2 * 20}%)` }}
             >
               {category2.slice(1).map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   className={`w-60 h-100 rounded-lg cursor-pointer ${
-                    index === currentIndex1
+                    index === currentIndex2
                       ? 'translate-x-60'
                       : 'translate-x-full'
                   }`}
@@ -198,11 +213,11 @@ const Listings = () => {
               ))}
             </div>
             <MdArrowCircleLeft
-              onClick={prevSlide1}
+              onClick={prevSlide2}
               className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
             />
             <MdArrowCircleRight
-              onClick={nextSlide1}
+              onClick={nextSlide2}
               className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
             />
           </div>
@@ -214,14 +229,14 @@ const Listings = () => {
           <div className="relative overflow-hidden">
             <div
               className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-              style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
+              style={{ transform: `translateX(-${currentIndex3 * 20}%)` }}
             >
               {category3.slice(1).map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   className={`w-60 h-100 rounded-lg cursor-pointer ${
-                    index === currentIndex1
+                    index === currentIndex3
                       ? 'translate-x-60'
                       : 'translate-x-full'
                   }`}
@@ -231,11 +246,11 @@ const Listings = () => {
               ))}
             </div>
             <MdArrowCircleLeft
-              onClick={prevSlide1}
+              onClick={prevSlide3}
               className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
             />
             <MdArrowCircleRight
-              onClick={nextSlide1}
+              onClick={nextSlide3}
               className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
             />
           </div>

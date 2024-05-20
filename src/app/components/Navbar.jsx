@@ -6,7 +6,7 @@ import { GoHome } from 'react-icons/go'
 import { MdOutlineDashboard } from 'react-icons/md'
 import { MdContactSupport } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
-import jwtDecode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import Image from 'next/image'
 
 const Navbar = () => {
@@ -114,7 +114,7 @@ const Navbar = () => {
                   Dashboard
                 </a>
                 <a
-                  href="javascript:void(0);"
+                  href="/login"
                   className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                 >
                   Logout

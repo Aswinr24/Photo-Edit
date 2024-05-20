@@ -48,44 +48,11 @@ export default function Page() {
     fileInputRef.current.click()
   }
 
-  const handleUpload = async () => {
-    const formData = new FormData()
-    formData.append('profilePicture', file)
-
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
-      if (response.ok) {
-        console.log('File uploaded successfully')
-      } else {
-        console.error('File upload failed')
-      }
-    } catch (error) {
-      console.error('Error uploading file:', error)
-    }
-  }
-
   return (
     <>
       <Navbar />
       <main className="bg-purple-50 p-10">
         <div className="flex items-center justify-center">
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              opacity: 0,
-              cursor: 'pointer',
-            }}
-          />
           <FaCircleUser className="w-36 h-36 rounded-full p-2 text-gray-300 ring-2 ring-purple-400" />
           <div className="w-36 h-36 group hover:bg-purple-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
             <img
@@ -94,7 +61,6 @@ export default function Page() {
               alt=""
               onClick={handleClick}
             />
-            <input type="file" onChange={handleFileChange} />
           </div>
         </div>
         <div className="px-60 py-10">
