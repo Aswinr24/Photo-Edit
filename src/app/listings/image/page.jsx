@@ -38,6 +38,7 @@ export default function Page() {
   const [imageClasses, setImageClasses] = useState(
     '-bottom-2 mb-16 flex text-black'
   )
+  const apiUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/image`
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -52,7 +53,7 @@ export default function Page() {
   }, [])
 
   const handleDownloadImage = async () => {
-    const response = await fetch('https://smart-ariser.vercel.app/api/image', {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
