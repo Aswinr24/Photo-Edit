@@ -53,7 +53,7 @@ export default function Page() {
   }, [])
 
   const handleDownloadImage = async () => {
-    const response = await fetch(apiUrl, {
+    const response = await fetch('http://localhost:3000/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

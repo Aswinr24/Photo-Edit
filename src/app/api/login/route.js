@@ -58,7 +58,7 @@ export async function POST(request) {
         expiresIn: '1h',
       }
     )
-
+    console.log(token)
     return NextResponse.json({ token }, { status: 200 })
   } catch (error) {
     console.error('Login error:', error.message)
