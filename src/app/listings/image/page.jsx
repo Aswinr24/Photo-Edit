@@ -52,7 +52,7 @@ export default function Page() {
   }, [])
 
   const handleDownloadImage = async () => {
-    const response = await fetch('http://localhost:3000/api/image', {
+    const response = await fetch('https://smart-ariser.vercel.app/api/image', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

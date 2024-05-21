@@ -7,21 +7,19 @@ export default function Page() {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
+  const apiUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/login`
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch(
-        'https://smart-ariser.vercel.app/api/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ phoneNumber, password }),
-        }
-      )
-
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber, password }),
+      })
+      console.log(apiUrl)
       const data = await response.json()
 
       if (!response.ok) {
@@ -31,7 +29,7 @@ export default function Page() {
         const token = data
         console.log(token)
         localStorage.setItem('token', token)
-        router.push('https://smart-ariser.vercel.app')
+        router.push(process.env.WEBSITE_URL)
       }
     } catch (error) {
       console.log(error)

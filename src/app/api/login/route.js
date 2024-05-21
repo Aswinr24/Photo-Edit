@@ -59,7 +59,7 @@ export async function POST(request) {
       }
     )
 
-    return NextResponse.json(token)
+    return NextResponse.json({ token }, { status: 200 })
   } catch (error) {
     console.error('Login error:', error.message)
     return new NextResponse.json({
