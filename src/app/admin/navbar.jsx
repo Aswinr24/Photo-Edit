@@ -47,17 +47,17 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-pink-200 py-4 px-8 text-black shadow-lg">
+    <nav className="bg-yellow-200 py-4 px-8 text-black shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <div className="mr-2">
             <img
               src="/smart_ariser_logo.png"
-              className="w-[140px] h-[84px] cursor-pointer"
+              className="w-[120px] h-[70px] cursor-pointer"
               onClick={handleLogoClick}
             />
           </div>
-          <div className="hidden justify-center text-lg items-center px-40 ml-28 md:flex lg:flex space-x-28">
+          <div className="hidden justify-center text-lg items-center pl-60 ml-32 md:flex lg:flex space-x-28">
             <a
               href="javascript:void(0);"
               className="hover:text-gray-700 flex"
@@ -77,15 +77,12 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex items-center gap-5">
-          <a href="#" className="hover:text-gray-700">
-            <CiHeart className="w-8 h-8 text-gray-600" />
-          </a>
           <div className="relative">
             <button onClick={toggleDropdown} className="focus:outline-none">
               <FaCircleUser className="w-9 h-9 mt-1 filter grayscale text-gray-500" />
             </button>
             {isOpen && (
-              <div className="absolute right-0 mt-2 w-48 text-center bg-pink-100 border rounded-md shadow-lg z-10">
+              <div className="absolute right-0 mt-2 w-48 text-center bg-amber-100 border rounded-md shadow-lg z-10">
                 <div className="px-4 py-2">
                   <p className="text-gray-800 font-bold">
                     {user ? user.username : 'Someone'}

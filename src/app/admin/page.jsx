@@ -2,7 +2,9 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { jwtDecode } from 'jwt-decode'
-import Navbar from './navbar'
+import Navbar from './Navbar'
+import Listings from './Listings'
+import Footer from './Footer'
 
 const page = () => {
   //   const router = useRouter()
@@ -29,9 +31,11 @@ const page = () => {
   //     return null
   //   }
   return (
-    <>
+    <main className="bg-amber-100">
       <Navbar />
-    </>
+      <Listings />
+      <Footer />
+    </main>
   )
 }
 
