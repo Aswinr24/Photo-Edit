@@ -5,6 +5,9 @@ import { MdArrowCircleRight } from 'react-icons/md'
 import { MdArrowCircleLeft } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
 import '../.././app/styles.css'
+import { LuUpload } from 'react-icons/lu'
+import { MdAdd } from 'react-icons/md'
+import Popup from './Popup'
 
 const Listings = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -19,8 +22,10 @@ const Listings = () => {
   const [category4, setCategory4] = useState([])
   const [category5, setCategory5] = useState([])
   const [showPopup, setShowPopup] = useState(false)
+  const [showPopup2, setShowPopup2] = useState(false)
   const [showSpin, setShowSpin] = useState(false)
   const [imageToDelete, setImageToDelete] = useState(null)
+  const [categoryname, setCategoryname] = useState('')
 
   const [firstImages, setFirstImages] = useState([])
 
@@ -63,6 +68,14 @@ const Listings = () => {
     const stringWithSpaces = str.replace(/_/g, ' ')
     const capitalizedString = stringWithSpaces.replace(/\b\w/g, (char) =>
       char.toUpperCase()
+    )
+    return capitalizedString
+  }
+
+  const reprocessCategoryString = (str) => {
+    const stringWithoutSpaces = str.replace(/ /g, '_')
+    const capitalizedString = stringWithoutSpaces.replace(/\b\w/g, (char) =>
+      char.toLowerCase()
     )
     return capitalizedString
   }
@@ -131,6 +144,10 @@ const Listings = () => {
     setShowPopup(true)
   }
 
+  const onClick = () => {
+    setShowPopup2(false)
+  }
+
   const handleDelete = async () => {
     setShowSpin(true)
     try {
@@ -182,6 +199,59 @@ const Listings = () => {
     }
   }
 
+  const handleCategory = () => {
+    setShowPopup2(true)
+  }
+
+  const handleFileChange = async (e, category) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('category', category)
+    console.log(file)
+    console.log(formData)
+    try {
+      const res = await fetch('http://localhost:3000/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      if (res.ok) {
+        alert('Image Uploaded Successfully')
+        const fetchData = async () => {
+          const res = await fetch('http://localhost:3000/api')
+          const data = await res.json()
+
+          const categoryMap = {}
+          data.forEach((item) => {
+            const category = processCategoryString(item.Category)
+            if (!categoryMap[category]) {
+              categoryMap[category] = [category]
+            }
+            categoryMap[category].push(item.Image)
+          })
+
+          const categoryArrays = Object.values(categoryMap)
+
+          setCategory1(categoryArrays[0] || [])
+          setCategory2(categoryArrays[1] || [])
+          setCategory3(categoryArrays[2] || [])
+          setCategory4(categoryArrays[3] || [])
+          setCategory5(categoryArrays[4] || [])
+
+          const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+          setFirstImages(firstImgs)
+        }
+
+        fetchData()
+      } else {
+        alert('Failed to upload image')
+      }
+    } catch (error) {
+      console.error('Failed to upload image:', error)
+    }
+  }
+
   const images3 = ['/buddha2.jpg', '/buddha3.jpg']
   const images4 = ['/athletics1.png', '/athletics2.jpg']
 
@@ -210,7 +280,7 @@ const Listings = () => {
           </div>
           <MdArrowCircleLeft
             onClick={prevSlide}
-            className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-400"
+            className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-500"
           />
           <MdArrowCircleRight
             onClick={() =>
@@ -226,7 +296,12 @@ const Listings = () => {
           <div className="relative overflow-hidden">
             <div
               className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-              style={{ transform: `translateX(-${currentIndex1 * 20}%)` }}
+              style={{
+                transform: `translateX(-${
+                  (currentIndex1 * 100) / (category1.length + 1)
+                }%)`,
+                width: `${(category1.length + 1) * 20}%`,
+              }}
             >
               {category1.slice(1).map((image, index) => (
                 <img
@@ -241,16 +316,33 @@ const Listings = () => {
                   onClick={() => handleClick(image)}
                 />
               ))}
+              <div className="w-60 h-100 ml-60 relative rounded-xl cursor-pointer flex items-center justify-center border-4 border-dashed border-amber-400">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    handleFileChange(e, reprocessCategoryString(category1[0]))
+                  }
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+                <div className="text-amber-400">
+                  <div className="flex items-center justify-center">
+                    <LuUpload className="w-14 h-16 mb-4 text-amber-400" />
+                  </div>
+                  Upload Image
+                </div>
+              </div>
             </div>
+
             <MdArrowCircleLeft
               onClick={prevSlide1}
-              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-400"
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-500"
             />
             <MdArrowCircleRight
               onClick={() =>
                 nextSlide1(currentIndex1, setCurrentIndex1, category1)
               }
-              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-400"
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-500"
             />
           </div>
         </div>
@@ -262,7 +354,12 @@ const Listings = () => {
           <div className="relative overflow-hidden">
             <div
               className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-              style={{ transform: `translateX(-${currentIndex2 * 20}%)` }}
+              style={{
+                transform: `translateX(-${
+                  (currentIndex2 * 100) / (category2.length + 1)
+                }%)`,
+                width: `${(category2.length + 1) * 20}%`,
+              }}
             >
               {category2.slice(1).map((image, index) => (
                 <img
@@ -277,16 +374,32 @@ const Listings = () => {
                   onClick={() => handleClick(image)}
                 />
               ))}
+              <div className="w-60 h-100 ml-60 relative rounded-xl cursor-pointer flex items-center justify-center border-4 border-dashed border-amber-400">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    handleFileChange(e, reprocessCategoryString(category2[0]))
+                  }
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+                <div className="text-amber-400">
+                  <div className="flex items-center justify-center">
+                    <LuUpload className="w-14 h-16 mb-4 text-amber-400" />
+                  </div>
+                  Upload Image
+                </div>
+              </div>
             </div>
             <MdArrowCircleLeft
               onClick={prevSlide2}
-              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-400"
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-500"
             />
             <MdArrowCircleRight
               onClick={() =>
                 nextSlide2(currentIndex2, setCurrentIndex2, category2)
               }
-              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-400"
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-500"
             />
           </div>
         </div>
@@ -297,7 +410,12 @@ const Listings = () => {
           <div className="relative overflow-hidden">
             <div
               className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
-              style={{ transform: `translateX(-${currentIndex3 * 20}%)` }}
+              style={{
+                transform: `translateX(-${
+                  (currentIndex3 * 100) / (category3.length + 1)
+                }%)`,
+                width: `${(category3.length + 1) * 20}%`,
+              }}
             >
               {category3.slice(1).map((image, index) => (
                 <img
@@ -312,16 +430,32 @@ const Listings = () => {
                   onClick={() => handleClick(image)}
                 />
               ))}
+              <div className="w-60 h-100 ml-60 relative rounded-xl cursor-pointer flex items-center justify-center border-4 border-dashed border-amber-400">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    handleFileChange(e, reprocessCategoryString(category3[0]))
+                  }
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+                <div className="text-amber-400">
+                  <div className="flex items-center justify-center">
+                    <LuUpload className="w-14 h-16 mb-4 text-amber-400" />
+                  </div>
+                  Upload Image
+                </div>
+              </div>
             </div>
             <MdArrowCircleLeft
               onClick={prevSlide3}
-              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-400"
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-500"
             />
             <MdArrowCircleRight
               onClick={() =>
                 nextSlide3(currentIndex3, setCurrentIndex3, category3)
               }
-              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-400"
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-500"
             />
           </div>
         </div>
@@ -358,6 +492,17 @@ const Listings = () => {
           </div>
         </div>
       </div>
+      <div className="pt-16 pb-4 px-10">
+        <div className="flex">
+          <button
+            onClick={handleCategory}
+            className="text-amber-500 px-2 rounded-md flex"
+          >
+            <MdAdd className="w-10 h-9 text-amber-500" />
+            Add New Category
+          </button>
+        </div>
+      </div>
       {showPopup && (
         <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
           <div className="bg-amber-100 p-8 rounded-xl shadow-lg text-center">
@@ -382,6 +527,52 @@ const Listings = () => {
               >
                 Cancel
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showPopup2 && (
+        <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-amber-100 p-8 rounded-xl shadow-lg text-center">
+            <p className="px-2">Add a new Category?</p>
+            <div className="py-4">
+              <input
+                type="text"
+                id="category"
+                onChange={(e) => setCategoryname(e.target.value)}
+                className="bg-amber-100 text-lg border-2 border-amber-500 my-2 focus:border-amber-600 placeholder:text-amber-500 rounded-xl block w-full ps-4 p-2.5 text-amber-600"
+                placeholder="Category Name"
+                required
+              />
+              <div className="pt-4 pb-2 relative">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, categoryname)}
+                  className="text-lg absolute opacity-0 inset-0 cursor-pointer"
+                />
+                <div className="flex px-4">
+                  <LuUpload className="w-10 h-10 mb-4 text-amber-400" />
+                  <span className="text-amber-500 px-2 pt-2 text-xl">
+                    Upload Image
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex w-full">
+              <div className="flex items-start justify-start px-2">
+                <button
+                  //onClick={handleSubmit}
+                  className="bg-amber-500 rounded-2xl text-white text-xl p-2 px-3"
+                >
+                  Submit
+                </button>
+              </div>
+              <div className="flex w-full justify-end items-end">
+                <button className="text-lg" onClick={onClick}>
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>
