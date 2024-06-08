@@ -26,7 +26,8 @@ const Listings = () => {
   const [showSpin, setShowSpin] = useState(false)
   const [imageToDelete, setImageToDelete] = useState(null)
   const [categoryname, setCategoryname] = useState('')
-
+  const [file, setFile] = useState(null)
+  const [filename, setFilename] = useState('Upload Image')
   const [firstImages, setFirstImages] = useState([])
 
   const router = useRouter()
@@ -218,6 +219,66 @@ const Listings = () => {
       })
       if (res.ok) {
         alert('Image Uploaded Successfully')
+        const fetchData = async () => {
+          const res = await fetch('http://localhost:3000/api')
+          const data = await res.json()
+
+          const categoryMap = {}
+          data.forEach((item) => {
+            const category = processCategoryString(item.Category)
+            if (!categoryMap[category]) {
+              categoryMap[category] = [category]
+            }
+            categoryMap[category].push(item.Image)
+          })
+
+          const categoryArrays = Object.values(categoryMap)
+
+          setCategory1(categoryArrays[0] || [])
+          setCategory2(categoryArrays[1] || [])
+          setCategory3(categoryArrays[2] || [])
+          setCategory4(categoryArrays[3] || [])
+          setCategory5(categoryArrays[4] || [])
+
+          const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+          setFirstImages(firstImgs)
+        }
+
+        fetchData()
+      } else {
+        alert('Failed to upload image')
+      }
+    } catch (error) {
+      console.error('Failed to upload image:', error)
+    }
+  }
+
+  const handleFileChange2 = (e) => {
+    setFile(e.target.files[0])
+    const formData = new FormData()
+    formData.append('file', file)
+    setFilename(formData.get('file').name)
+  }
+
+  const handleSubmit = async () => {
+    if (!file || !categoryname) {
+      alert('Please provide both a category name and an image.')
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('category', categoryname)
+
+    try {
+      const res = await fetch('http://localhost:3000/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (res.ok) {
+        alert('Image Uploaded Successfully')
+        onClick()
         const fetchData = async () => {
           const res = await fetch('http://localhost:3000/api')
           const data = await res.json()
@@ -460,6 +521,62 @@ const Listings = () => {
           </div>
         </div>
       )}
+      {category4.length > 0 && (
+        <div>
+          <div className="text-3xl text-black px-10 py-10">{category4[0]}</div>
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+              style={{
+                transform: `translateX(-${
+                  (currentIndex4 * 100) / (category4.length + 1)
+                }%)`,
+                width: `${(category4.length + 1) * 20}%`,
+              }}
+            >
+              {category4.slice(1).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                    index === currentIndex4
+                      ? 'translate-x-60'
+                      : 'translate-x-full'
+                  }`}
+                  alt={`Slide ${index}`}
+                  onClick={() => handleClick(image)}
+                />
+              ))}
+              <div className="w-60 h-100 ml-60 relative rounded-xl cursor-pointer flex items-center justify-center border-4 border-dashed border-amber-400">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    handleFileChange(e, reprocessCategoryString(category4[0]))
+                  }
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+                <div className="text-amber-400">
+                  <div className="flex items-center justify-center">
+                    <LuUpload className="w-14 h-16 mb-4 text-amber-400" />
+                  </div>
+                  Upload Image
+                </div>
+              </div>
+            </div>
+            <MdArrowCircleLeft
+              onClick={prevSlide4}
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-500"
+            />
+            <MdArrowCircleRight
+              onClick={() =>
+                nextSlide4(currentIndex4, setCurrentIndex4, category4)
+              }
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-500"
+            />
+          </div>
+        </div>
+      )}
       <div className="flex gap-40">
         <div>
           <div className="text-3xl text-black px-36 py-10">Buddha Purnima</div>
@@ -551,13 +668,13 @@ const Listings = () => {
                   id="file"
                   accept="image/*"
                   formEncType="multipart/form-data"
-                  onChange={(e) => handleFileChange(e, categoryname)}
+                  onChange={handleFileChange2}
                   className="text-lg absolute opacity-0 inset-0 cursor-pointer"
                 />
                 <div className="flex px-4">
                   <LuUpload className="w-10 h-10 mb-4 text-amber-400" />
                   <span className="text-amber-500 px-2 pt-2 text-xl">
-                    Upload Image
+                    {filename}
                   </span>
                 </div>
               </div>
@@ -565,7 +682,7 @@ const Listings = () => {
             <div className="flex w-full">
               <div className="flex items-start justify-start px-2">
                 <button
-                  //onClick={handleSubmit}
+                  onClick={handleSubmit}
                   className="bg-amber-500 rounded-2xl text-white text-xl p-2 px-3"
                 >
                   Submit

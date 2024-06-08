@@ -13,7 +13,7 @@ const supabase = createClient(SupabaseUrl, ServiceRoleKey)
 export async function POST(req, res) {
   const formData = await req.formData()
   const file = formData.get('file')
-  console.log(file)
+  const category = formData.get('category')
   if (!file) {
     return NextResponse.json({ message: 'No image uploaded' }, { status: 400 })
   }
@@ -26,7 +26,7 @@ export async function POST(req, res) {
 
   try {
     const { error: storageError } = await supabase.storage
-      .from('Pictures')
+      .from('Images')
       .upload(filePath, fileStream, {
         cacheControl: '3600',
         upsert: false,
@@ -42,9 +42,17 @@ export async function POST(req, res) {
       throw storageError
     }
 
-    const { data } = supabase.storage
-      .from('Pictures')
-      .getPublicUrl(filePath, { download: true })
+    const { data } = supabase.storage.from('Images').getPublicUrl(filePath)
+
+    const imageUrl = data.publicUrl
+
+    const { error: insertError } = await supabase
+      .from('Listings')
+      .insert([{ Image: imageUrl, Category: category }])
+
+    if (insertError) {
+      throw insertError
+    }
 
     return NextResponse.json(
       {
