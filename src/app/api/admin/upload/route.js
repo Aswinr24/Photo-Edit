@@ -1,45 +1,56 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { createReadStream } from 'fs'
+import { createReadStream, unlink } from 'fs'
 import { join } from 'path'
+import path from 'path'
+import { writeFile } from 'fs/promises'
 
 const SupabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const Apikey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const ServiceRoleKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY
 
-const supabase = createClient(SupabaseUrl, Apikey)
+const supabase = createClient(SupabaseUrl, ServiceRoleKey)
 
 export async function POST(req, res) {
-  console.log(req)
-  const file = req.files.file
-  const category = req.body.category
-  console.log(category)
+  const formData = await req.formData()
+  const file = formData.get('file')
+  console.log(file)
   if (!file) {
     return NextResponse.json({ message: 'No image uploaded' }, { status: 400 })
   }
+  const tempFilePath = join(process.cwd(), `public/${file.name}`)
+  const arrayBuffer = await file.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+  await writeFile(tempFilePath, buffer)
+  const fileStream = createReadStream(tempFilePath)
+  const filePath = `public/${file.name}`
 
   try {
-    const fileStream = createReadStream(file.path)
-    const fileName = `${Date.now()}_${file.name}`
-    const filePath = `images/${fileName}`
+    const { error: storageError } = await supabase.storage
+      .from('Pictures')
+      .upload(filePath, fileStream, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: file.type,
+        duplex: 'half',
+      })
 
-    const { error: storageError, data: storageData } = await supabase.storage
-      .from('Images')
-      .upload(filePath, fileStream)
+    unlink(tempFilePath, (err) => {
+      if (err) console.error('Failed to delete temporary file:', err)
+    })
 
     if (storageError) {
       throw storageError
     }
-    const imageUrl = `${SupabaseUrl}/storage/v1/object/public/your_bucket_name/${fileName}`
-    const { data: savedData, error: dbError } = await supabase
-      .from('your_table_name')
-      .insert([{ imageUrl: imageUrl, category: category }])
 
-    if (dbError) {
-      throw dbError
-    }
+    const { data } = supabase.storage
+      .from('Pictures')
+      .getPublicUrl(filePath, { download: true })
 
     return NextResponse.json(
-      { message: 'Image uploaded and saved successfully', imageUrl: imageUrl },
+      {
+        message: 'Image uploaded and saved successfully',
+        imageUrl: data.publicUrl,
+      },
       { status: 200 }
     )
   } catch (error) {

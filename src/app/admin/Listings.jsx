@@ -547,7 +547,10 @@ const Listings = () => {
               <div className="pt-4 pb-2 relative">
                 <input
                   type="file"
+                  name="file"
+                  id="file"
                   accept="image/*"
+                  formEncType="multipart/form-data"
                   onChange={(e) => handleFileChange(e, categoryname)}
                   className="text-lg absolute opacity-0 inset-0 cursor-pointer"
                 />
