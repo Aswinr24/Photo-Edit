@@ -34,7 +34,7 @@ export async function POST(req, res) {
     let imageNotFoundInStorage = false
 
     try {
-      const { data, error: storageError } = await supabase.storage
+      const { filePath, error: storageError } = await supabase.storage
         .from('Images')
         .remove([filePath])
 
