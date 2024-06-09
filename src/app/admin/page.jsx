@@ -6,7 +6,7 @@ import Navbar from './Navbar'
 import Listings from './Listings'
 import Footer from './Footer'
 
-const Page = () => {
+export default function Page() {
   const router = useRouter()
   const [user, setUser] = useState(null)
 
@@ -36,5 +36,3 @@ const Page = () => {
     </main>
   )
 }
-
-export default Page

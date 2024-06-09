@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 import '../.././app/styles.css'
 import { LuUpload } from 'react-icons/lu'
 import { MdAdd } from 'react-icons/md'
-import Popup from './Popup'
 
 const Listings = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
