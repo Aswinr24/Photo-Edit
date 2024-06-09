@@ -37,7 +37,6 @@ const Listings = () => {
       try {
         const res = await fetch('http://localhost:3000/api')
         const data = await res.json()
-
         const categoryMap = {}
         data.forEach((item) => {
           const category = processCategoryString(item.Category)

@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation'
 
 export default function Page() {
   const router = useRouter()
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
-  const apiUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/login`
+  const apiUrl = 'http://localhost:3000/api/admin/login'
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -17,7 +17,7 @@ export default function Page() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber, password }),
+        body: JSON.stringify({ name, password }),
       })
       console.log(apiUrl)
       const data = await response.json()
@@ -25,11 +25,9 @@ export default function Page() {
       if (!response.ok) {
         setErrors(data.message)
       } else {
-        console.log(data)
         const token = data
-        console.log(token)
-        localStorage.setItem('token', token)
-        router.push(process.env.NEXT_PUBLIC_WEBSITE_URL)
+        localStorage.setItem('token', JSON.stringify(token))
+        router.push('http://localhost:3000/admin')
       }
     } catch (error) {
       console.log(error)
@@ -48,13 +46,13 @@ export default function Page() {
         <div className="py-6 px-8 pb-8 rounded-xl text-black  bg-amber-400">
           <h2 className="text-2xl py-4 px-28 font-semibold">Admin Sign In </h2>
           {errors && <p className="text-red-700 text-xl"> {errors}</p>}
-          <h2 className="text-lg py-1">Phone no</h2>
+          <h2 className="text-lg py-1">Name:</h2>
           <input
             type="text"
-            id="phno"
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            id="name"
+            onChange={(e) => setName(e.target.value)}
             className="bg-violet-200 border my-2 border-gray-300 focus:border-fuchsia-600 text-black  placeholder:text-amber-600 text-md rounded-xl block w-full ps-4 p-2.5"
-            placeholder="+91"
+            placeholder="Your name"
             required
           />
           <div class="flex items-center justify-between mt-1">

@@ -28,7 +28,7 @@ export default function Page() {
         console.log(data)
         const token = data
         console.log(token)
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', json.stringify(token))
         router.push(process.env.NEXT_PUBLIC_WEBSITE_URL)
       }
     } catch (error) {

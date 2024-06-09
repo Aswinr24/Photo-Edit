@@ -21,7 +21,7 @@ const Navbar = () => {
       try {
         const decodedToken = jwtDecode(token)
         setUser({
-          username: decodedToken.username,
+          name: decodedToken.name,
           email: decodedToken.email,
         })
       } catch (error) {
@@ -82,33 +82,33 @@ const Navbar = () => {
               <FaCircleUser className="w-9 h-9 mt-1 filter grayscale text-gray-500" />
             </button>
             {isOpen && (
-              <div className="absolute right-0 mt-2 w-48 text-center bg-amber-100 border rounded-md shadow-lg z-10">
+              <div className="absolute right-0 mt-2 w-56 text-center bg-amber-100 border rounded-md shadow-lg z-10">
                 <div className="px-4 py-2">
                   <p className="text-gray-800 font-bold">
-                    {user ? user.username : 'Someone'}
+                    {user ? user.name : 'Someone'}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-700">
                     {user ? user.email : 'sm@example.com'}
                   </p>
                 </div>
                 <hr className="border-gray-300" />
                 <a
                   href="javascript:void(0);"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  className="block px-4 py-2 text-gray-800 hover:bg-yellow-200"
                   onClick={handleProfileClick}
                 >
                   Profile
                 </a>
                 <a
                   href="javascript:void(0);"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  className="block px-4 py-2 text-gray-800 hover:bg-yellow-200"
                   onClick={handleDashboardClick}
                 >
                   Dashboard
                 </a>
                 <a
                   href="/login"
-                  className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                  className="block px-4 py-2 text-gray-800 hover:bg-yellow-200"
                 >
                   Logout
                 </a>
