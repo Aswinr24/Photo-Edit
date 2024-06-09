@@ -26,13 +26,17 @@ export async function POST(req, res) {
       throw error
     }
 
-    const fileName = imagePath.split('/').pop()
+    filePath = imagePath.replaceAll(
+      `${process.env.SUPABASE_STORAGE_URL}/object/public/Images/`,
+      ''
+    )
+    console.log(filePath)
     let imageNotFoundInStorage = false
 
     try {
-      const { error: storageError } = await supabase.storage
+      const { data, error: storageError } = await supabase.storage
         .from('Images')
-        .remove([fileName])
+        .remove([filePath])
 
       if (storageError) {
         if (storageError.statusCode === 404) {
