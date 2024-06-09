@@ -27,7 +27,7 @@ export async function POST(req, res) {
     }
 
     filePath = imagePath.replaceAll(
-      `${process.env.SUPABASE_STORAGE_URL}/object/public/Images/`,
+      `${process.env.SUPABASE_STORAGE_URL}/storage/v1/object/public/Images/`,
       ''
     )
     console.log(filePath)
