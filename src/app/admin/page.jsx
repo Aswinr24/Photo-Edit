@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { jwtDecode } from 'jwt-decode'
-import Navbar from './Navbar'
-import Listings from './Listings'
-import Footer from './Footer'
+import Navbar from '../admincomponents/Navbar'
+import Listings from '../admincomponents/Listings'
+import Footer from '../admincomponents/Footer'
 
 export default function Page() {
   const router = useRouter()
