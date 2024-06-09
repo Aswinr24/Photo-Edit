@@ -2,9 +2,9 @@ import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
 const SupabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const Apikey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const ServiceRoleKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY
 
-const supabase = createClient(SupabaseUrl, Apikey)
+const supabase = createClient(SupabaseUrl, ServiceRoleKey)
 
 export async function POST(req, res) {
   const { imagePath } = await req.json()
