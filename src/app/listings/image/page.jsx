@@ -243,7 +243,7 @@ export default function Page() {
   }
 
   const handleSaveImage = async () => {
-    const response = await fetch('http://localhost:3000/api/image', {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

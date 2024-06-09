@@ -26,10 +26,12 @@ const Listings = () => {
 
   const router = useRouter()
 
+  const apiUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api`
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api')
+        const res = await fetch(apiUrl)
         const data = await res.json()
 
         const categoryMap = {}

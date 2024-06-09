@@ -29,13 +29,14 @@ const Listings = () => {
   const [file, setFile] = useState(null)
   const [filename, setFilename] = useState('Upload Image')
   const [firstImages, setFirstImages] = useState([])
+  const apiUrl = process.env.NEXT_PUBLIC_WEBSITE_URL
 
   const router = useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api')
+        const res = await fetch(`${apiUrl}/api`)
         const data = await res.json()
         const categoryMap = {}
         data.forEach((item) => {
@@ -151,7 +152,7 @@ const Listings = () => {
   const handleDelete = async () => {
     setShowSpin(true)
     try {
-      const res = await fetch('http://localhost:3000/api/admin/delete', {
+      const res = await fetch(`${apiUrl}/api/admin/delete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -164,7 +165,7 @@ const Listings = () => {
         setShowPopup(false)
         setImageToDelete(null)
         const fetchData = async () => {
-          const res = await fetch('http://localhost:3000/api')
+          const res = await fetch(`${apiUrl}/api`)
           const data = await res.json()
 
           const categoryMap = {}
@@ -212,14 +213,14 @@ const Listings = () => {
     console.log(file)
     console.log(formData)
     try {
-      const res = await fetch('http://localhost:3000/api/admin/upload', {
+      const res = await fetch(`${apiUrl}/api/admin/upload`, {
         method: 'POST',
         body: formData,
       })
       if (res.ok) {
         alert('Image Uploaded Successfully')
         const fetchData = async () => {
-          const res = await fetch('http://localhost:3000/api')
+          const res = await fetch(`${apiUrl}/api`)
           const data = await res.json()
 
           const categoryMap = {}
@@ -270,7 +271,7 @@ const Listings = () => {
     formData.append('category', categoryname)
 
     try {
-      const res = await fetch('http://localhost:3000/api/admin/upload', {
+      const res = await fetch(`${apiUrl}/api/admin/upload`, {
         method: 'POST',
         body: formData,
       })
@@ -279,7 +280,7 @@ const Listings = () => {
         alert('Image Uploaded Successfully')
         onClick()
         const fetchData = async () => {
-          const res = await fetch('http://localhost:3000/api')
+          const res = await fetch(`${apiUrl}/api`)
           const data = await res.json()
 
           const categoryMap = {}

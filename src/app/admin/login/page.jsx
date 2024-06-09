@@ -7,7 +7,7 @@ export default function Page() {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState('')
-  const apiUrl = 'http://localhost:3000/api/admin/login'
+  const apiUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/admin/login`
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -27,7 +27,7 @@ export default function Page() {
       } else {
         const token = data
         localStorage.setItem('token', JSON.stringify(token))
-        router.push('http://localhost:3000/admin')
+        router.push(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/admin`)
       }
     } catch (error) {
       console.log(error)

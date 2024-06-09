@@ -24,7 +24,7 @@ const Page = () => {
         console.error('Invalid token:', error)
       }
     } else {
-      router.replace('/admin/login')
+      router.replace(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/admin`)
     }
   }, [])
 

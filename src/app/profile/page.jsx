@@ -8,6 +8,7 @@ export default function Page() {
   const [userDetails, setUserDetails] = useState(null)
   const [file, setFile] = useState(null)
   const fileInputRef = useRef(null)
+  const apiUrl = process.env.NEXT_PUBLIC_WEBSITE_URL
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -24,7 +25,7 @@ export default function Page() {
   }, [])
 
   const fetchUserData = async (token) => {
-    await fetch('/api/profile', {
+    await fetch(`${apiUrl}/api/profile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

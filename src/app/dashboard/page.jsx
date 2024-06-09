@@ -8,6 +8,7 @@ export default function Page() {
   const [useremail, setUseremail] = useState(null)
   const [savedImages, setSavedImages] = useState([])
   const [downloadedImages, setDownloadedImages] = useState([])
+  const apiUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/api/dashboard`
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -18,16 +19,13 @@ export default function Page() {
 
         const fetchData = async () => {
           try {
-            const savedResponse = await fetch(
-              'https://smart-ariser.vercel.app/api/dashboard/saved',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ useremail: decodedToken.email }),
-              }
-            )
+            const savedResponse = await fetch(`${apiUrl}/saved`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ useremail: decodedToken.email }),
+            })
             const savedData = await savedResponse.json()
             if (savedResponse.ok) {
               const savedImageUrls = savedData.savedImages.map(
@@ -36,16 +34,13 @@ export default function Page() {
               setSavedImages(savedImageUrls)
             }
 
-            const downloadedResponse = await fetch(
-              'https://smart-ariser.vercel.app/api/dashboard/downloaded',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ useremail: decodedToken.email }),
-              }
-            )
+            const downloadedResponse = await fetch(`${apiUrl}/downloaded`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ useremail: decodedToken.email }),
+            })
             const downloadedData = await downloadedResponse.json()
             if (downloadedResponse.ok) {
               const downloadedImageUrls = downloadedData.savedImages.map(
