@@ -278,18 +278,31 @@ export default function Page() {
       <Navbar />
       <main className="bg-violet-50">
         <div className="py-10 mt-10 flex items-center justify-center">
-          <div className="h-[510px] w-[500px] rounded-lg pb-2" ref={element}>
+          <div
+            className={`rounded-lg pb-2 ${
+              showCustomFrame &&
+              (selectedCustomFrameIndex == 3 || selectedCustomFrameIndex == 4)
+                ? 'h-[660px] w-[500px] pt-3'
+                : 'h-[510px] w-[500px]'
+            }`}
+            ref={element}
+          >
             <div>
               <img
                 src={imagePath}
                 alt="diwali"
                 className={`px-2 rounded-2xl ${
                   showCustomFrame &&
-                  selectedCustomFrameIndex >= 0 &&
-                  selectedCustomFrameIndex < 5
+                  selectedCustomFrameIndex != 3 &&
+                  selectedCustomFrameIndex != 4 &&
+                  selectedCustomFrameIndex != 5
                     ? 'w-[495px] h-[400px] mt-3'
                     : showCustomFrame && selectedCustomFrameIndex == 5
                     ? 'w-[495px] h-[400px] mt-12 px-6'
+                    : showCustomFrame && selectedCustomFrameIndex == 3
+                    ? 'w-[495px] h-[480px]'
+                    : showCustomFrame && selectedCustomFrameIndex == 4
+                    ? 'w-[495px] h-[496px] mt-16 rounded-none'
                     : showFrame && selectedFrameIndex >= 0
                     ? 'mt-2 w-[500px] h-[488px]'
                     : 'w-[500px] h-[500px]'
@@ -335,8 +348,14 @@ export default function Page() {
                 }
                 alt="customFrame"
                 width={490}
-                className={`absolute bottom-7 mb-1 ml-1 h-[490px] rounded-lg ${
-                  showCustomFrame ? 'block' : 'hidden'
+                className={`absolute mb-1 ml-1 rounded-lg ${
+                  showCustomFrame &&
+                  (selectedCustomFrameIndex == 3 ||
+                    selectedCustomFrameIndex == 4)
+                    ? 'top-40 pt-3 block'
+                    : showCustomFrame
+                    ? 'mt-0 bottom-7'
+                    : 'hidden'
                 }`}
               />
               <div
