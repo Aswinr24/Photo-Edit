@@ -200,7 +200,7 @@ const Listings = () => {
                 <img
                   key={index}
                   src={image}
-                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                  className={`w-60 h-60 rounded-lg cursor-pointer ${
                     index === currentIndex1
                       ? 'translate-x-60'
                       : 'translate-x-full'
@@ -235,7 +235,7 @@ const Listings = () => {
                 <img
                   key={index}
                   src={image}
-                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                  className={`w-60 h-60 rounded-lg cursor-pointer ${
                     index === currentIndex2
                       ? 'translate-x-60'
                       : 'translate-x-full'
@@ -340,7 +340,7 @@ const Listings = () => {
                 <img
                   key={index}
                   src={image}
-                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                  className={`w-60 h-60 rounded-lg cursor-pointer ${
                     index === currentIndex5
                       ? 'translate-x-60'
                       : 'translate-x-full'
