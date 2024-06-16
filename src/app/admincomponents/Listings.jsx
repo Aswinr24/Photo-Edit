@@ -41,20 +41,37 @@ const Listings = () => {
         data.forEach((item) => {
           const category = processCategoryString(item.Category)
           if (!categoryMap[category]) {
-            categoryMap[category] = [category]
+            categoryMap[category] = {
+              items: [item.Image],
+              type: [item.type],
+              category: [item.category],
+            }
+          } else {
+            categoryMap[category].items.push(item.Image)
+            categoryMap[category].type.push(item.type)
           }
-          categoryMap[category].push(item.Image)
         })
 
-        const categoryArrays = Object.values(categoryMap)
-
+        const categoryArrays = Object.entries(categoryMap).map(
+          ([categoryName, categoryValue]) => {
+            return [categoryName, ...categoryValue.items]
+          }
+        )
         setCategory1(categoryArrays[0] || [])
         setCategory2(categoryArrays[1] || [])
         setCategory3(categoryArrays[2] || [])
         setCategory4(categoryArrays[3] || [])
         setCategory5(categoryArrays[4] || [])
 
-        const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+        const firstImgs = Object.values(categoryMap)
+          .map((category) => {
+            const eventIndex = category.type.findIndex(
+              (types) => types === 'event'
+            )
+            return category.items[eventIndex]
+          })
+          .filter(Boolean)
+
         setFirstImages(firstImgs)
       } catch (error) {
         console.error('Failed to fetch data:', error)
@@ -74,10 +91,10 @@ const Listings = () => {
 
   const reprocessCategoryString = (str) => {
     const stringWithoutSpaces = str.replace(/ /g, '_')
-    const capitalizedString = stringWithoutSpaces.replace(/\b\w/g, (char) =>
-      char.toLowerCase()
-    )
-    return capitalizedString
+    const resultString =
+      stringWithoutSpaces.charAt(0).toUpperCase() +
+      stringWithoutSpaces.slice(1).toLowerCase()
+    return resultString
   }
 
   const nextSlide = (currentIndex, setCurrentIndex, category) => {
@@ -171,20 +188,37 @@ const Listings = () => {
           data.forEach((item) => {
             const category = processCategoryString(item.Category)
             if (!categoryMap[category]) {
-              categoryMap[category] = [category]
+              categoryMap[category] = {
+                items: [item.Image],
+                type: [item.type],
+                category: [item.category],
+              }
+            } else {
+              categoryMap[category].items.push(item.Image)
+              categoryMap[category].type.push(item.type)
             }
-            categoryMap[category].push(item.Image)
           })
 
-          const categoryArrays = Object.values(categoryMap)
-
+          const categoryArrays = Object.entries(categoryMap).map(
+            ([categoryName, categoryValue]) => {
+              return [categoryName, ...categoryValue.items]
+            }
+          )
           setCategory1(categoryArrays[0] || [])
           setCategory2(categoryArrays[1] || [])
           setCategory3(categoryArrays[2] || [])
           setCategory4(categoryArrays[3] || [])
           setCategory5(categoryArrays[4] || [])
 
-          const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+          const firstImgs = Object.values(categoryMap)
+            .map((category) => {
+              const eventIndex = category.type.findIndex(
+                (types) => types === 'event'
+              )
+              return category.items[eventIndex]
+            })
+            .filter(Boolean)
+
           setFirstImages(firstImgs)
         }
 
@@ -226,20 +260,37 @@ const Listings = () => {
           data.forEach((item) => {
             const category = processCategoryString(item.Category)
             if (!categoryMap[category]) {
-              categoryMap[category] = [category]
+              categoryMap[category] = {
+                items: [item.Image],
+                type: [item.type],
+                category: [item.category],
+              }
+            } else {
+              categoryMap[category].items.push(item.Image)
+              categoryMap[category].type.push(item.type)
             }
-            categoryMap[category].push(item.Image)
           })
 
-          const categoryArrays = Object.values(categoryMap)
-
+          const categoryArrays = Object.entries(categoryMap).map(
+            ([categoryName, categoryValue]) => {
+              return [categoryName, ...categoryValue.items]
+            }
+          )
           setCategory1(categoryArrays[0] || [])
           setCategory2(categoryArrays[1] || [])
           setCategory3(categoryArrays[2] || [])
           setCategory4(categoryArrays[3] || [])
           setCategory5(categoryArrays[4] || [])
 
-          const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+          const firstImgs = Object.values(categoryMap)
+            .map((category) => {
+              const eventIndex = category.type.findIndex(
+                (types) => types === 'event'
+              )
+              return category.items[eventIndex]
+            })
+            .filter(Boolean)
+
           setFirstImages(firstImgs)
         }
 
@@ -286,20 +337,37 @@ const Listings = () => {
           data.forEach((item) => {
             const category = processCategoryString(item.Category)
             if (!categoryMap[category]) {
-              categoryMap[category] = [category]
+              categoryMap[category] = {
+                items: [item.Image],
+                type: [item.type],
+                category: [item.category],
+              }
+            } else {
+              categoryMap[category].items.push(item.Image)
+              categoryMap[category].type.push(item.type)
             }
-            categoryMap[category].push(item.Image)
           })
 
-          const categoryArrays = Object.values(categoryMap)
-
+          const categoryArrays = Object.entries(categoryMap).map(
+            ([categoryName, categoryValue]) => {
+              return [categoryName, ...categoryValue.items]
+            }
+          )
           setCategory1(categoryArrays[0] || [])
           setCategory2(categoryArrays[1] || [])
           setCategory3(categoryArrays[2] || [])
           setCategory4(categoryArrays[3] || [])
           setCategory5(categoryArrays[4] || [])
 
-          const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+          const firstImgs = Object.values(categoryMap)
+            .map((category) => {
+              const eventIndex = category.type.findIndex(
+                (types) => types === 'event'
+              )
+              return category.items[eventIndex]
+            })
+            .filter(Boolean)
+
           setFirstImages(firstImgs)
         }
 
@@ -311,9 +379,6 @@ const Listings = () => {
       console.error('Failed to upload image:', error)
     }
   }
-
-  const images3 = ['/buddha2.jpg', '/buddha3.jpg']
-  const images4 = ['/athletics1.png', '/athletics2.jpg']
 
   return (
     <main className="text-3xl text-black p-10">
@@ -576,38 +641,62 @@ const Listings = () => {
           </div>
         </div>
       )}
-      <div className="flex gap-40">
+      {category5.length > 0 && (
         <div>
-          <div className="text-3xl text-black px-36 py-10">Buddha Purnima</div>
-          <div className="flex gap-10 px-10">
-            {images3.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                className={`w-60 h-100 rounded-lg cursor-pointer`}
-                alt={`Slide ${index}`}
-                onClick={() => handleClick(image)}
-              />
-            ))}
+          <div className="text-3xl text-black px-10 py-10">{category5[0]}</div>
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+              style={{
+                transform: `translateX(-${
+                  (currentIndex5 * 100) / (category5.length + 1)
+                }%)`,
+                width: `${(category5.length + 1) * 20}%`,
+              }}
+            >
+              {category5.slice(1).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                    index === currentIndex5
+                      ? 'translate-x-60'
+                      : 'translate-x-full'
+                  }`}
+                  alt={`Slide ${index}`}
+                  onClick={() => handleClick(image)}
+                />
+              ))}
+              <div className="w-60 h-100 ml-60 relative rounded-xl cursor-pointer flex items-center justify-center border-4 border-dashed border-amber-400">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    handleFileChange(e, reprocessCategoryString(category5[0]))
+                  }
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+                <div className="text-amber-400">
+                  <div className="flex items-center justify-center">
+                    <LuUpload className="w-14 h-16 mb-4 text-amber-400" />
+                  </div>
+                  Upload Image
+                </div>
+              </div>
+            </div>
+            <MdArrowCircleLeft
+              onClick={prevSlide4}
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-amber-500"
+            />
+            <MdArrowCircleRight
+              onClick={() =>
+                nextSlide4(currentIndex5, setCurrentIndex5, category5)
+              }
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-amber-500"
+            />
           </div>
         </div>
-        <div>
-          <div className="text-3xl text-black px-48 py-10">
-            World Athletics Day
-          </div>
-          <div className="flex gap-10 px-10">
-            {images4.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                className={`w-60 h-100 rounded-lg cursor-pointer`}
-                alt={`Slide ${index}`}
-                onClick={() => handleClick(image)}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      )}
       <div className="pt-16 pb-4 px-10">
         <div className="flex">
           <button

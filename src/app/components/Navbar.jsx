@@ -20,10 +20,12 @@ const Navbar = () => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token)
-        setUser({
-          username: decodedToken.username,
-          email: decodedToken.email,
-        })
+        if (token.username) {
+          setUser({
+            username: decodedToken.username,
+            email: decodedToken.email,
+          })
+        }
       } catch (error) {
         console.error('Invalid token:', error)
       }

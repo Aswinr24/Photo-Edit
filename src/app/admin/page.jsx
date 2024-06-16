@@ -12,19 +12,22 @@ export default function Page() {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    console.log(token)
     if (token) {
       try {
         const decodedToken = jwtDecode(token)
-        setUser({
-          name: decodedToken.name,
-          email: decodedToken.email,
-        })
+        if (decodedToken.name) {
+          setUser({
+            name: decodedToken.name,
+            email: decodedToken.email,
+          })
+        } else {
+          router.replace(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/admin/login`)
+        }
       } catch (error) {
         console.error('Invalid token:', error)
       }
     } else {
-      router.replace(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/admin`)
+      router.replace(`${process.env.NEXT_PUBLIC_WEBSITE_URL}/admin/login`)
     }
   }, [])
 

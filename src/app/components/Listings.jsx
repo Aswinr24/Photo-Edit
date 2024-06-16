@@ -38,20 +38,37 @@ const Listings = () => {
         data.forEach((item) => {
           const category = processCategoryString(item.Category)
           if (!categoryMap[category]) {
-            categoryMap[category] = [category]
+            categoryMap[category] = {
+              items: [item.Image],
+              type: [item.type],
+              category: [item.category],
+            }
+          } else {
+            categoryMap[category].items.push(item.Image)
+            categoryMap[category].type.push(item.type)
           }
-          categoryMap[category].push(item.Image)
         })
 
-        const categoryArrays = Object.values(categoryMap)
-
+        const categoryArrays = Object.entries(categoryMap).map(
+          ([categoryName, categoryValue]) => {
+            return [categoryName, ...categoryValue.items]
+          }
+        )
         setCategory1(categoryArrays[0] || [])
         setCategory2(categoryArrays[1] || [])
         setCategory3(categoryArrays[2] || [])
         setCategory4(categoryArrays[3] || [])
         setCategory5(categoryArrays[4] || [])
 
-        const firstImgs = categoryArrays.map((arr) => arr[1]).filter(Boolean)
+        const firstImgs = Object.values(categoryMap)
+          .map((category) => {
+            const eventIndex = category.type.findIndex(
+              (types) => types === 'event'
+            )
+            return category.items[eventIndex]
+          })
+          .filter(Boolean)
+
         setFirstImages(firstImgs)
       } catch (error) {
         console.error('Failed to fetch data:', error)
@@ -69,45 +86,58 @@ const Listings = () => {
     return capitalizedString
   }
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => prevIndex + 2)
+  const nextSlide = (currentIndex, setCurrentIndex, firstImages) => {
+    if (currentIndex < firstImages.length - 5) {
+      setCurrentIndex(currentIndex + 1)
+    }
   }
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => prevIndex - 1)
   }
 
-  const nextSlide1 = () => {
-    setCurrentIndex1((prevIndex1) => prevIndex1 + 2)
+  const nextSlide1 = (currentIndex1, setCurrentIndex1, category1) => {
+    if (currentIndex1 < category1.length - 5) {
+      setCurrentIndex1(currentIndex1 + 1)
+    }
   }
 
   const prevSlide1 = () => {
     setCurrentIndex1((prevIndex1) => prevIndex1 - 1)
   }
-  const nextSlide2 = () => {
-    setCurrentIndex2((prevIndex2) => prevIndex2 + 2)
+  const nextSlide2 = (currentIndex2, setCurrentIndex2, category2) => {
+    if (currentIndex2 < category2.length - 5) {
+      setCurrentIndex2(currentIndex2 + 1)
+    }
   }
 
   const prevSlide2 = () => {
     setCurrentIndex2((prevIndex2) => prevIndex2 - 1)
   }
-  const nextSlide3 = () => {
-    setCurrentIndex3((prevIndex3) => prevIndex3 + 2)
+  const nextSlide3 = (currentIndex3, setCurrentIndex3, category3) => {
+    if (currentIndex3 < category3.length - 5) {
+      setCurrentIndex3(currentIndex3 + 1)
+    }
   }
 
   const prevSlide3 = () => {
     setCurrentIndex3((prevIndex3) => prevIndex3 - 1)
   }
-  const nextSlide4 = () => {
-    setCurrentIndex4((prevIndex4) => prevIndex4 + 2)
+
+  const nextSlide4 = (currentIndex4, setCurrentIndex4, category4) => {
+    if (currentIndex4 < category4.length - 5) {
+      setCurrentIndex4(currentIndex4 + 1)
+    }
   }
 
   const prevSlide4 = () => {
     setCurrentIndex4((prevIndex4) => prevIndex4 - 1)
   }
 
-  const nextSlide5 = () => {
-    setCurrentIndex5((prevIndex5) => prevIndex5 + 2)
+  const nextSlide5 = (currentIndex5, setCurrentIndex5, category5) => {
+    if (currentIndex5 < category5.length - 5) {
+      setCurrentIndex5(currentIndex5 + 1)
+    }
   }
 
   const prevSlide5 = () => {
@@ -118,9 +148,6 @@ const Listings = () => {
     router.push(`/listings/image?imagePath=${encodeURIComponent(imagePath)}`)
   }
 
-  const images3 = ['/buddha2.jpg', '/buddha3.jpg']
-  const images4 = ['/athletics1.png', '/athletics2.jpg']
-
   return (
     <main className="text-3xl text-black p-10">
       <div className="w-full mb-6 relative flex justify-center items-center">
@@ -128,7 +155,7 @@ const Listings = () => {
         <img src="/banner.png" className="rounded w-[1200px] h-[520px]" />
         <FaAngleRight className="absolute w-12 h-12 text-purple-500 right-0 top-48 cursor-pointer" />
       </div>
-      <div className="flex items-center justify-center my-4">
+      <div className="flex items-center justify-center my-4 pb-2">
         Celebrations with your Branding!
       </div>
       <div className="pt-4">
@@ -141,7 +168,7 @@ const Listings = () => {
               <img
                 key={index}
                 src={image}
-                className={`w-60 h-100 rounded-lg cursor-pointer ${
+                className={`w-60 h-60 rounded-lg cursor-pointer ${
                   index === currentIndex ? 'translate-x-60' : 'translate-x-full'
                 }`}
                 alt={`Slide ${index}`}
@@ -154,7 +181,9 @@ const Listings = () => {
             className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
           />
           <MdArrowCircleRight
-            onClick={nextSlide}
+            onClick={() =>
+              nextSlide(currentIndex, setCurrentIndex, firstImages)
+            }
             className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
           />
         </div>
@@ -186,7 +215,9 @@ const Listings = () => {
               className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
             />
             <MdArrowCircleRight
-              onClick={nextSlide1}
+              onClick={() =>
+                nextSlide1(currentIndex1, setCurrentIndex1, category1)
+              }
               className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
             />
           </div>
@@ -219,7 +250,9 @@ const Listings = () => {
               className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
             />
             <MdArrowCircleRight
-              onClick={nextSlide2}
+              onClick={() =>
+                nextSlide2(currentIndex2, setCurrentIndex2, category2)
+              }
               className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
             />
           </div>
@@ -237,7 +270,7 @@ const Listings = () => {
                 <img
                   key={index}
                   src={image}
-                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                  className={`w-60 h-60 rounded-lg cursor-pointer ${
                     index === currentIndex3
                       ? 'translate-x-60'
                       : 'translate-x-full'
@@ -252,44 +285,84 @@ const Listings = () => {
               className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
             />
             <MdArrowCircleRight
-              onClick={nextSlide3}
+              onClick={() =>
+                nextSlide3(currentIndex3, setCurrentIndex3, category3)
+              }
               className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
             />
           </div>
         </div>
       )}
-      <div className="flex gap-40">
+      {category4.length > 0 && (
         <div>
-          <div className="text-3xl text-black px-36 py-10">Buddha Purnima</div>
-          <div className="flex gap-10 px-10">
-            {images3.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                className={`w-60 h-100 rounded-lg cursor-pointer`}
-                alt={`Slide ${index}`}
-                onClick={() => handleClick(image)}
-              />
-            ))}
+          <div className="text-3xl text-black px-10 py-10">{category4[0]}</div>
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+              style={{ transform: `translateX(-${currentIndex4 * 20}%)` }}
+            >
+              {category4.slice(1).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={`w-60 h-60 rounded-lg cursor-pointer ${
+                    index === currentIndex4
+                      ? 'translate-x-60'
+                      : 'translate-x-full'
+                  }`}
+                  alt={`Slide ${index}`}
+                  onClick={() => handleClick(image)}
+                />
+              ))}
+            </div>
+            <MdArrowCircleLeft
+              onClick={prevSlide4}
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
+            />
+            <MdArrowCircleRight
+              onClick={() =>
+                nextSlide4(currentIndex4, setCurrentIndex4, category4)
+              }
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
+            />
           </div>
         </div>
+      )}
+      {category5.length > 0 && (
         <div>
-          <div className="text-3xl text-black px-48 py-10">
-            World Athletics Day
-          </div>
-          <div className="flex gap-10 px-10">
-            {images4.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                className={`w-60 h-100 rounded-lg cursor-pointer`}
-                alt={`Slide ${index}`}
-                onClick={() => handleClick(image)}
-              />
-            ))}
+          <div className="text-3xl text-black px-10 py-10">{category5[0]}</div>
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-10 px-10 -ml-60 mr-60 transition-transform duration-300"
+              style={{ transform: `translateX(-${currentIndex5 * 20}%)` }}
+            >
+              {category5.slice(1).map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={`w-60 h-100 rounded-lg cursor-pointer ${
+                    index === currentIndex5
+                      ? 'translate-x-60'
+                      : 'translate-x-full'
+                  }`}
+                  alt={`Slide ${index}`}
+                  onClick={() => handleClick(image)}
+                />
+              ))}
+            </div>
+            <MdArrowCircleLeft
+              onClick={prevSlide5}
+              className="absolute top-20 mt-4 -left-0.5 w-9 cursor-pointer h-10 text-purple-400"
+            />
+            <MdArrowCircleRight
+              onClick={() =>
+                nextSlide5(currentIndex5, setCurrentIndex5, category5)
+              }
+              className="absolute top-20 mt-4 w-9 h-10 cursor-pointer -right-0.5 text-purple-400"
+            />
           </div>
         </div>
-      </div>
+      )}
     </main>
   )
 }

@@ -39,11 +39,11 @@ const Navbar = () => {
   }
 
   const handleProfileClick = () => {
-    router.push('/profile')
+    // router.push('/profile')
   }
 
   const handleDashboardClick = () => {
-    router.push('/dashboard')
+    // router.push('/dashboard')
   }
 
   return (
