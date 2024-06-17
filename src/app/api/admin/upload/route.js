@@ -14,6 +14,9 @@ export async function POST(req, res) {
   const formData = await req.formData()
   const file = formData.get('file')
   const category = formData.get('category')
+  const type = formData.get('type')
+  const date2 = formData.get('date')
+  const date = date2 === 'null' || date2 === '' ? null : date2
   if (!file) {
     return NextResponse.json({ message: 'No image uploaded' }, { status: 400 })
   }
@@ -48,7 +51,7 @@ export async function POST(req, res) {
 
     const { error: insertError } = await supabase
       .from('Listings')
-      .insert([{ Image: imageUrl, Category: category }])
+      .insert([{ Image: imageUrl, Category: category, type: type, date: date }])
 
     if (insertError) {
       throw insertError

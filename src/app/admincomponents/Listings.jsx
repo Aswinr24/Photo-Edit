@@ -25,6 +25,8 @@ const Listings = () => {
   const [showSpin, setShowSpin] = useState(false)
   const [imageToDelete, setImageToDelete] = useState(null)
   const [categoryname, setCategoryname] = useState('')
+  const [categorytype, setCategorytype] = useState('')
+  const [categorydate, setCategorydate] = useState('')
   const [file, setFile] = useState(null)
   const [filename, setFilename] = useState('Upload Image')
   const [firstImages, setFirstImages] = useState([])
@@ -44,6 +46,7 @@ const Listings = () => {
             categoryMap[category] = {
               items: [item.Image],
               type: [item.type],
+              date: item.date,
               category: [item.category],
             }
           } else {
@@ -51,10 +54,14 @@ const Listings = () => {
             categoryMap[category].type.push(item.type)
           }
         })
-
         const categoryArrays = Object.entries(categoryMap).map(
           ([categoryName, categoryValue]) => {
-            return [categoryName, ...categoryValue.items]
+            return [
+              categoryName,
+              categoryValue.type[0],
+              categoryValue.date,
+              ...categoryValue.items,
+            ]
           }
         )
         setCategory1(categoryArrays[0] || [])
@@ -191,6 +198,7 @@ const Listings = () => {
               categoryMap[category] = {
                 items: [item.Image],
                 type: [item.type],
+                date: item.date,
                 category: [item.category],
               }
             } else {
@@ -198,10 +206,14 @@ const Listings = () => {
               categoryMap[category].type.push(item.type)
             }
           })
-
           const categoryArrays = Object.entries(categoryMap).map(
             ([categoryName, categoryValue]) => {
-              return [categoryName, ...categoryValue.items]
+              return [
+                categoryName,
+                categoryValue.type[0],
+                categoryValue.date,
+                ...categoryValue.items,
+              ]
             }
           )
           setCategory1(categoryArrays[0] || [])
@@ -237,12 +249,14 @@ const Listings = () => {
     setShowPopup2(true)
   }
 
-  const handleFileChange = async (e, category) => {
+  const handleFileChange = async (e, category, type, date) => {
     const file = e.target.files[0]
     if (!file) return
     const formData = new FormData()
     formData.append('file', file)
     formData.append('category', category)
+    formData.append('type', type)
+    formData.append('date', date)
     console.log(file)
     console.log(formData)
     try {
@@ -263,6 +277,7 @@ const Listings = () => {
               categoryMap[category] = {
                 items: [item.Image],
                 type: [item.type],
+                date: item.date,
                 category: [item.category],
               }
             } else {
@@ -270,10 +285,14 @@ const Listings = () => {
               categoryMap[category].type.push(item.type)
             }
           })
-
           const categoryArrays = Object.entries(categoryMap).map(
             ([categoryName, categoryValue]) => {
-              return [categoryName, ...categoryValue.items]
+              return [
+                categoryName,
+                categoryValue.type[0],
+                categoryValue.date,
+                ...categoryValue.items,
+              ]
             }
           )
           setCategory1(categoryArrays[0] || [])
@@ -311,6 +330,7 @@ const Listings = () => {
   }
 
   const handleSubmit = async () => {
+    setShowSpin(true)
     if (!file || !categoryname) {
       alert('Please provide both a category name and an image.')
       return
@@ -319,6 +339,8 @@ const Listings = () => {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('category', categoryname)
+    formData.append('type', categorytype)
+    formData.append('date', categorydate)
 
     try {
       const res = await fetch(`${apiUrl}/api/admin/upload`, {
@@ -327,6 +349,8 @@ const Listings = () => {
       })
 
       if (res.ok) {
+        setShowSpin(false)
+        setFile(null)
         alert('Image Uploaded Successfully')
         onClick()
         const fetchData = async () => {
@@ -340,6 +364,7 @@ const Listings = () => {
               categoryMap[category] = {
                 items: [item.Image],
                 type: [item.type],
+                date: item.date,
                 category: [item.category],
               }
             } else {
@@ -347,10 +372,14 @@ const Listings = () => {
               categoryMap[category].type.push(item.type)
             }
           })
-
           const categoryArrays = Object.entries(categoryMap).map(
             ([categoryName, categoryValue]) => {
-              return [categoryName, ...categoryValue.items]
+              return [
+                categoryName,
+                categoryValue.type[0],
+                categoryValue.date,
+                ...categoryValue.items,
+              ]
             }
           )
           setCategory1(categoryArrays[0] || [])
@@ -428,7 +457,7 @@ const Listings = () => {
                 width: `${(category1.length + 1) * 20}%`,
               }}
             >
-              {category1.slice(1).map((image, index) => (
+              {category1.slice(3).map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -446,7 +475,12 @@ const Listings = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) =>
-                    handleFileChange(e, reprocessCategoryString(category1[0]))
+                    handleFileChange(
+                      e,
+                      reprocessCategoryString(category1[0]),
+                      category1[1],
+                      category1[2]
+                    )
                   }
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
@@ -486,7 +520,7 @@ const Listings = () => {
                 width: `${(category2.length + 1) * 20}%`,
               }}
             >
-              {category2.slice(1).map((image, index) => (
+              {category2.slice(3).map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -504,7 +538,12 @@ const Listings = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) =>
-                    handleFileChange(e, reprocessCategoryString(category2[0]))
+                    handleFileChange(
+                      e,
+                      reprocessCategoryString(category2[0]),
+                      category2[1],
+                      category2[2]
+                    )
                   }
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
@@ -542,7 +581,7 @@ const Listings = () => {
                 width: `${(category3.length + 1) * 20}%`,
               }}
             >
-              {category3.slice(1).map((image, index) => (
+              {category3.slice(3).map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -560,7 +599,12 @@ const Listings = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) =>
-                    handleFileChange(e, reprocessCategoryString(category3[0]))
+                    handleFileChange(
+                      e,
+                      reprocessCategoryString(category3[0]),
+                      category3[1],
+                      category3[2]
+                    )
                   }
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
@@ -598,7 +642,7 @@ const Listings = () => {
                 width: `${(category4.length + 1) * 20}%`,
               }}
             >
-              {category4.slice(1).map((image, index) => (
+              {category4.slice(3).map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -616,7 +660,12 @@ const Listings = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) =>
-                    handleFileChange(e, reprocessCategoryString(category4[0]))
+                    handleFileChange(
+                      e,
+                      reprocessCategoryString(category4[0]),
+                      category4[1],
+                      category4[2]
+                    )
                   }
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
@@ -654,7 +703,7 @@ const Listings = () => {
                 width: `${(category5.length + 1) * 20}%`,
               }}
             >
-              {category5.slice(1).map((image, index) => (
+              {category5.slice(3).map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -672,7 +721,12 @@ const Listings = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) =>
-                    handleFileChange(e, reprocessCategoryString(category5[0]))
+                    handleFileChange(
+                      e,
+                      reprocessCategoryString(category5[0]),
+                      category5[1],
+                      category5[2]
+                    )
                   }
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
@@ -715,15 +769,15 @@ const Listings = () => {
             <div className="flex pt-8 px-20">
               <button
                 onClick={handleDelete}
-                className="bg-red-600 rounded-2xl text-white text-xl p-3 px-4"
+                className="bg-red-600 rounded-2xl text-white text-xl p-3 pb-10 px-4 h-12 w-36"
               >
                 {showSpin ? (
-                  <div className="flex text-sm px-2">
+                  <div className="flex text-sm px-1.5 py-1">
                     Deleting...
                     <div className="animate-spin rounded-full h-5 w-5 border-t-2 px-2 ml-4 border-b-2 border-r-2 border-white"></div>
                   </div>
                 ) : (
-                  <span> Delete</span>
+                  <div className="m"> Delete</div>
                 )}
               </button>
               <button
@@ -739,7 +793,7 @@ const Listings = () => {
       {showPopup2 && (
         <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
           <div className="bg-amber-100 p-8 rounded-xl shadow-lg text-center">
-            <p className="px-2">Add a new Category?</p>
+            <p className="px-2">Add a new Category:</p>
             <div className="py-4">
               <input
                 type="text"
@@ -747,6 +801,21 @@ const Listings = () => {
                 onChange={(e) => setCategoryname(e.target.value)}
                 className="bg-amber-100 text-lg border-2 border-amber-500 my-2 focus:border-amber-600 placeholder:text-amber-500 rounded-xl block w-full ps-4 p-2.5 text-amber-600"
                 placeholder="Category Name"
+                required
+              />
+              <input
+                type="text"
+                id="categoryType"
+                onChange={(e) => setCategorytype(e.target.value)}
+                className="bg-amber-100 text-lg border-2 border-amber-500 my-2 focus:border-amber-600 placeholder:text-amber-500 rounded-xl block w-full ps-4 p-2.5 text-amber-600"
+                placeholder="Category Type"
+                required
+              />
+              <input
+                type="date"
+                id="categoryDate"
+                onChange={(e) => setCategorydate(e.target.value)}
+                className="bg-amber-100 text-lg border-2 border-amber-500 my-2 focus:border-amber-600 rounded-xl block w-full ps-4 p-2.5 text-amber-600"
                 required
               />
               <div className="pt-4 pb-2 relative">
@@ -768,15 +837,22 @@ const Listings = () => {
               </div>
             </div>
             <div className="flex w-full">
-              <div className="flex items-start justify-start px-2">
+              <div className="flex items-start justify-start px-2 mt-2 h-14 w-36">
                 <button
                   onClick={handleSubmit}
                   className="bg-amber-500 rounded-2xl text-white text-xl p-2 px-3"
                 >
-                  Submit
+                  {showSpin ? (
+                    <div className="flex text-sm">
+                      Uploading image...
+                      <div className="animate-spin rounded-full h-5 w-5 border-t-2 px-2 ml-4 mt-2.5 border-b-2 border-r-2 border-white"></div>
+                    </div>
+                  ) : (
+                    <div className="px-2 py-1"> Submit</div>
+                  )}
                 </button>
               </div>
-              <div className="flex w-full justify-end items-end">
+              <div className="flex w-full justify-end items-end mb-4">
                 <button className="text-lg" onClick={onClick}>
                   Cancel
                 </button>
