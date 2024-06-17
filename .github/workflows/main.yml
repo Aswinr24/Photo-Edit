@@ -1,0 +1,15 @@
+name: Daily Database Cleanup
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: '0 0 * * *'
+
+jobs:
+  triggerEndpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit Endpoint
+        uses: wei/curl@master
+        with:
+          args: curl https://branding.smartariser.in/api/cron
