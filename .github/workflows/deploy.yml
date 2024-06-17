@@ -1,0 +1,10 @@
+name: Redeploy website on push
+
+on: [push]
+
+jobs:
+  trigger-endpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl request
+        run: curl ${{ secrets.DEPLOY_URL }}
