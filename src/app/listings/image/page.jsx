@@ -100,7 +100,6 @@ export default function Page() {
     '/frames/frame1.png',
     '/frames/frame2.png',
     '/frames/frame3.png',
-    '/frames/frame4.png',
     '/frames/frame5.png',
     '/frames/Frame6.png',
     '/frames/frame7.png',
