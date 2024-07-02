@@ -92,7 +92,7 @@ export default function Page() {
   const [showFrame, setShowFrame] = useState(true)
   const [showCustomFrame, setShowCustomFrame] = useState(false)
   const [showContents, setShowContents] = useState(true)
-  const [selectedCustomFrameIndex, setSelectedCustomFrameIndex] = useState(6)
+  const [selectedCustomFrameIndex, setSelectedCustomFrameIndex] = useState(0)
   const [message, setMessage] = useState('')
   const [showNotification, setShowNotification] = useState(false)
   const saveButtonRef = useRef(null)
@@ -183,52 +183,45 @@ export default function Page() {
 
   const framePositions = [
     {
-      name: 'absolute -top-[490px] mb-60 flex -right-80 mr-12',
-      email: '-bottom-0 -right-56 mb-8 flex text-black',
-      phone: '-bottom-0 flex mb-12  left-2 text-black',
-      website: '-bottom-0 mb-8 -right-[440px] left-72 text-black flex',
-      location: '-bottom-0 mb-1 -right-80 mr-6 text-black flex-row',
+      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      email: '-top-[56px] -right-56 mb-5 flex text-black',
+      phone: 'flex -top-[80px] left-2 text-black',
+      website: '-top-[56px] mb-5 -right-[440px] left-72 text-black flex',
+      location: '-top-[32px] mb-0 -right-80 mr-6 text-black flex-row',
     },
     {
-      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
-      email: '-bottom-0 mb-2 flex -left-0 text-white',
+      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      email: '-top-[32px] mb-2 flex -left-0 text-white',
       phone: '-bottom-0 flex mb-8 left-0 text-black',
       website: 'flex -bottom-0 mb-8 -right-[420px] text-black',
       location: 'flex -bottom-0 -right-[428px] mb-3 text-black',
     },
     {
-      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
+      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
       email: '-bottom-0 mb-1 flex ml-3 -left-0 text-white',
-      phone: '-bottom-0 mb-6 flex left-10 text-white',
+      phone: '-top-[56px] mb-6 flex left-10 text-white',
       website: '-bottom-0 flex -right-[380px] mb-8 text-white',
       location: '-bottom-0 mb-2 flex -right-[450px] mr-10 text-white',
     },
     {
-      name: 'absolute -top-60 mt-4 flex -left-40 -right-20 ml-24',
-      email: 'top-20 left-20',
-      phone: 'top-60 left-20',
-      website: 'top-100 left-20',
-      location: 'bottom-20 left-20',
-    },
-    {
-      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
+      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
       email: '-bottom-0 mb-6 flex -right-[428px] text-black',
-      phone: '-bottom-0 mb-4 flex left-16 text-black',
-      website: '-bottom-0 mb-1 flex left-6 text-black',
+      phone: '-top-[48px] mb-4 flex left-16 text-black',
+      website: '-top-[30px] mb-1 flex left-6 text-black',
       location: '-bottom-0 mb-1.5 flex -right-[456px] mr-16 text-black',
     },
     {
-      name: 'absolute -top-[480px] flex -right-60 ml-20 mr-0',
+      name: 'absolute -top-[450px] flex -right-72 -ml-4 mr-6',
       email: '-bottom-0 mb-3 flex left-2',
-      phone: '-bottom-0 mb-7 flex left-2',
-      website: '-top-[490px] flex -right-[420px]',
+      phone: '-top-[60px] mb-7 flex left-2',
+      website: '-top-[460px] flex -right-[432px]',
       location: '-bottom-0 mb-4 -right-[424px] ',
     },
     {
-      name: 'absolute -top-[480px] mb-60 flex -right-80 mr-12',
-      email: '-bottom-0 mb-3 flex left-28 ml-1 text-black text-sm',
-      phone: '-bottom-0 mb-1 flex -left-0 text-black',
-      website: '-bottom-0 mb-3 flex left-80 ml-4 text-black text-sm',
+      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      email: '-top-[36px] mb-3 flex left-28 ml-1 text-black text-sm',
+      phone: '-top-[36px] mb-1 flex -left-0 text-black',
+      website: '-top-[36px] mb-3 flex left-80 ml-4 text-black text-sm',
       location: '-bottom-0 mb-10 -right-80 mr-10',
     },
   ]
@@ -278,11 +271,11 @@ export default function Page() {
       <main className="bg-violet-50">
         <div className="py-10 mt-10 flex items-center justify-center">
           <div
-            className={`rounded-lg pb-2 ${
+            className={`rounded-lg ${
               showCustomFrame &&
               (selectedCustomFrameIndex == 3 || selectedCustomFrameIndex == 4)
                 ? 'h-[660px] w-[500px] pt-3'
-                : 'h-[510px] w-[500px]'
+                : 'h-[480px] w-[500px]'
             }`}
             ref={element}
           >
@@ -330,11 +323,23 @@ export default function Page() {
                 }
                 alt="frame1"
                 className={
-                  selectedFrameIndex !== 5
-                    ? `absolute bottom-6 mb-2 ml-2 w-[484px] rounded-lg ${
+                  selectedFrameIndex == 0
+                    ? `absolute top-96 mt-44 ml-2 w-[484px] rounded-lg ${
                         showFrame ? 'block' : 'hidden'
                       }`
-                    : `absolute bottom-6 mb-1 ml-1 w-[494px] h-[498px] rounded-lg ${
+                    : selectedFrameIndex == 1 || selectedFrameIndex == 2
+                    ? `absolute top-96 mt-48 pt-2 ml-2 w-[484px] rounded-lg ${
+                        showFrame ? 'block' : 'hidden'
+                      }`
+                    : selectedFrameIndex == 3
+                    ? `absolute top-96 mt-48 pt-1.5 ml-2 w-[484px] rounded-lg ${
+                        showFrame ? 'block' : 'hidden'
+                      }`
+                    : selectedFrameIndex == 4
+                    ? `absolute top-10 mt-32 pt-1.5 ml-2 w-[484px] h-[466px] rounded-lg ${
+                        showFrame ? 'block' : 'hidden'
+                      }`
+                    : `absolute top-96 mt-52 pt-2 ml-2 w-[484px] rounded-lg ${
                         showFrame ? 'block' : 'hidden'
                       }`
                 }
@@ -347,12 +352,14 @@ export default function Page() {
                 }
                 alt="customFrame"
                 width={490}
-                className={`absolute mb-1 ml-1 rounded-lg ${
-                  showCustomFrame && 'top-40 pt-3 block'
+                className={`${
+                  showCustomFrame
+                    ? 'block absolute mb-1 ml-1 rounded-lg top-40 pt-3'
+                    : 'hidden'
                 }`}
               />
               <div
-                className={`absolute mb-2 ml-4 text-black rounded-2xl flex px-4 ${
+                className={`absolute mb-4 ml-4 text-black rounded-2xl flex px-4 ${
                   showContents ? 'block' : 'hidden'
                 }`}
               >
@@ -376,9 +383,9 @@ export default function Page() {
                   >
                     <img
                       src="/phone.png"
-                      className="absolute h-3 w-3 mt-4 left-0"
+                      className="absolute h-3 w-3 mt-3.5 left-0"
                     />
-                    <p className="ml-4 mb-3"> 9354721223</p>
+                    <p className="ml-4"> 9354721223</p>
                   </p>
                 )}
                 {emailVisible && (
@@ -392,7 +399,7 @@ export default function Page() {
                       src="/email.png"
                       className="absolute h-3 w-4 mt-4 left-0"
                     />
-                    <p className="ml-6 mb-1">nextgenassociates@gmail.com</p>
+                    <p className="ml-5 mb-1">nextgenassociates@gmail.com</p>
                   </p>
                 )}
                 {websiteVisible && (
@@ -404,9 +411,9 @@ export default function Page() {
                   >
                     <img
                       src="/web.png"
-                      className="absolute h-3 w-3 mx-0.5 mt-4 left-0"
+                      className="absolute h-3.5 w-3.5 mt-3.5 left-0"
                     />
-                    <p className="ml-4 mb-1">nextassociates.xyz</p>
+                    <p className="ml-5 mb-1">nextassociates.xyz</p>
                   </p>
                 )}
                 {locationVisible && (
