@@ -303,7 +303,7 @@ export default function Page() {
                     : showCustomFrame && selectedCustomFrameIndex == 4
                     ? 'w-[495px] h-[496px] mt-16 rounded-none'
                     : showFrame && selectedFrameIndex >= 0
-                    ? 'mt-2 w-[500px] h-[488px]'
+                    ? 'mt-2 w-[500px] h-[460px]'
                     : 'w-[500px] h-[500px]'
                 }`}
               />
@@ -348,13 +348,7 @@ export default function Page() {
                 alt="customFrame"
                 width={490}
                 className={`absolute mb-1 ml-1 rounded-lg ${
-                  showCustomFrame &&
-                  (selectedCustomFrameIndex == 3 ||
-                    selectedCustomFrameIndex == 4)
-                    ? 'top-40 pt-3 block'
-                    : showCustomFrame
-                    ? 'mt-0 bottom-7'
-                    : 'hidden'
+                  showCustomFrame && 'top-40 pt-3 block'
                 }`}
               />
               <div
