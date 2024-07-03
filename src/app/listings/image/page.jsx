@@ -183,42 +183,42 @@ export default function Page() {
 
   const framePositions = [
     {
-      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      name: 'absolute -top-[460px] mb-60 flex -right-80 mr-12',
       email: '-top-[56px] -right-56 mb-5 flex text-black',
       phone: 'flex -top-[80px] left-2 text-black',
       website: '-top-[56px] mb-5 -right-[440px] left-72 text-black flex',
       location: '-top-[32px] mb-0 -right-80 mr-6 text-black flex-row',
     },
     {
-      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      name: 'absolute -top-[460px] mb-60 flex -right-80 mr-12',
       email: '-top-[32px] mb-2 flex -left-0 text-white',
       phone: '-bottom-0 flex mb-8 left-0 text-black',
-      website: 'flex -bottom-0 mb-8 -right-[420px] text-black',
-      location: 'flex -bottom-0 -right-[428px] mb-3 text-black',
+      website: 'flex -top-[56px] mb-8 -right-[420px] text-black',
+      location: 'flex -top-[32px] -right-[428px] mb-3 text-black',
     },
     {
-      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      name: 'absolute -top-[460px] mb-60 flex -right-80 mr-12',
       email: '-bottom-0 mb-1 flex ml-3 -left-0 text-white',
       phone: '-top-[56px] mb-6 flex left-10 text-white',
       website: '-bottom-0 flex -right-[380px] mb-8 text-white',
-      location: '-bottom-0 mb-2 flex -right-[450px] mr-10 text-white',
+      location: '-top-[32px] mb-2 flex -right-[450px] mr-10 text-white',
     },
     {
-      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      name: 'absolute -top-[460px] mb-60 flex -right-80 mr-12',
       email: '-bottom-0 mb-6 flex -right-[428px] text-black',
       phone: '-top-[48px] mb-4 flex left-16 text-black',
       website: '-top-[30px] mb-1 flex left-6 text-black',
-      location: '-bottom-0 mb-1.5 flex -right-[456px] mr-16 text-black',
+      location: '-top-[32px] mb-1.5 flex -right-[456px] mr-16 text-black',
     },
     {
-      name: 'absolute -top-[450px] flex -right-72 -ml-4 mr-6',
+      name: 'absolute -top-[460px] flex -right-72 -ml-4 mr-6',
       email: '-bottom-0 mb-3 flex left-2',
       phone: '-top-[60px] mb-7 flex left-2',
       website: '-top-[460px] flex -right-[432px]',
-      location: '-bottom-0 mb-4 -right-[424px] ',
+      location: '-top-[42px] mb-4 -right-[424px] ',
     },
     {
-      name: 'absolute -top-[450px] mb-60 flex -right-80 mr-12',
+      name: 'absolute -top-[460px] mb-60 flex -right-80 mr-12',
       email: '-top-[36px] mb-3 flex left-28 ml-1 text-black text-sm',
       phone: '-top-[36px] mb-1 flex -left-0 text-black',
       website: '-top-[36px] mb-3 flex left-80 ml-4 text-black text-sm',
@@ -275,7 +275,9 @@ export default function Page() {
               showCustomFrame &&
               (selectedCustomFrameIndex == 3 || selectedCustomFrameIndex == 4)
                 ? 'h-[660px] w-[500px] pt-3'
-                : 'h-[480px] w-[500px]'
+                : showFrame
+                ? 'h-[480px] w-[500px]'
+                : 'h-[500px] w-[500px]'
             }`}
             ref={element}
           >
@@ -309,7 +311,7 @@ export default function Page() {
                 {logoVisible && (
                   <Draggable bounds="parent">
                     <div className="absolute text-black text-3xl cursor-pointer">
-                      <Image src="/logo.png" height={30} width={90} />
+                      <img src="/logo.png" className="h-12 w-24" />
                     </div>
                   </Draggable>
                 )}
